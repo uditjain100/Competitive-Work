@@ -38,6 +38,15 @@ public class Lecture_01 {
 		System.out.println(RTNP_03(root, 100));
 		System.out.println(LCA(root, 40, 90).data);
 
+		System.out.println(LCA_02(root, 40, 90) + " , " + ((LCA_Node != null) ? LCA_Node.data : "null"));
+		System.out.println(kdownToTarget(root, 20, 2));
+		System.out.println(kdownToTarget_02(root, 20, 2));
+		System.out.println(kdownToTarget_03(root, 20, 2));
+
+		System.out.println("Diameter -> " + Diameter(root));
+		System.out.println("Diameter -> " + Diameter_02(root).diameter + " , Height -> " + Diameter_02(root).height);
+		Diameter_03(root);
+		System.out.println("Diameter -> " + dia);
 	}
 
 	public static class Node {
@@ -237,4 +246,218 @@ public class Lecture_01 {
 		}
 		return ans;
 	}
+
+	public static Node LCA_Node = null;
+
+	// Lowest Common Ancestor without extra space
+	public static boolean LCA_02(Node node, int p, int q) {
+
+		if (node == null)
+			return false;
+
+		boolean selfDone = false;
+		if (node.data == p || node.data == q) {
+			selfDone = true;
+		}
+
+		boolean leftDone = LCA_02(node.left, p, q);
+		if (LCA_Node != null)
+			return true;
+		boolean rightDone = LCA_02(node.right, p, q);
+		if (LCA_Node != null)
+			return true;
+
+		if ((leftDone && selfDone) || (rightDone && selfDone) || (leftDone && rightDone)) {
+			LCA_Node = node;
+		}
+
+		return selfDone || leftDone || rightDone;
+
+	}
+
+	public static void kDown(Node node, int k, Node blockNode, ArrayList<Node> ans) {
+
+		if (node == null || node == blockNode)
+			return;
+
+		if (k == 0) {
+			ans.add(node);
+			return;
+		}
+
+		kDown(node.left, k - 1, blockNode, ans);
+		kDown(node.right, k - 1, blockNode, ans);
+
+	}
+
+	public static void kDown_02(Node node, int k, Node blockNode) {
+
+		if (node == null || node == blockNode)
+			return;
+
+		if (k == 0) {
+			System.out.print(node.data + " ");
+			return;
+		}
+
+		kDown_02(node.left, k - 1, blockNode);
+		kDown_02(node.right, k - 1, blockNode);
+
+	}
+
+	public static void kDown_03(Node node, int k) {
+
+		if (node == null)
+			return;
+
+		if (k == 0) {
+			System.out.print(node.data + " ");
+			return;
+		}
+
+		kDown_03(node.left, k - 1);
+		kDown_03(node.right, k - 1);
+
+	}
+
+	// LeetCode 863
+	public static ArrayList<Integer> kdownToTarget(Node node, int target, int k) {
+
+		ArrayList<Node> path = new ArrayList<Lecture_01.Node>();
+		RTNP(node, target, path);
+
+		ArrayList<Node> ans = new ArrayList<Lecture_01.Node>();
+		Node blockNode = null;
+		for (int i = 0; i < path.size(); i++) {
+			if (k < i)
+				break;
+			kDown(path.get(i), k - i, blockNode, ans);
+			blockNode = path.get(i);
+		}
+		ArrayList<Integer> res = new ArrayList<>();
+		for (Node n : ans) {
+			res.add(n.data);
+		}
+		return res;
+	}
+
+	public static int kdownToTarget_02(Node node, int target, int k) {
+
+		if (node == null)
+			return -1;
+
+		if (node.data == target) {
+			kDown_02(node, k, null);
+			return 1;
+		}
+
+		int leftDistance = kdownToTarget_02(node.left, target, k);
+		if (leftDistance != -1) {
+			if (k >= leftDistance)
+				kDown_02(node, k - leftDistance, node.left);
+			return leftDistance + 1;
+		}
+
+		int rightDistance = kdownToTarget_02(node.right, target, k);
+		if (rightDistance != -1) {
+			if (k >= rightDistance)
+				kDown_02(node, k - rightDistance, node.right);
+			return rightDistance + 1;
+		}
+
+		return -1;
+	}
+
+	public static int kdownToTarget_03(Node node, int target, int k) {
+
+		if (node == null)
+			return -1;
+
+		if (node.data == target) {
+			kDown_03(node, k);
+			return 1;
+		}
+
+		int leftDistance = kdownToTarget_03(node.left, target, k);
+		if (leftDistance != -1) {
+			if (k == leftDistance) {
+				System.out.println(node.data + " ");
+			} else {
+				kDown_03(node.right, k - leftDistance - 1);
+			}
+			return leftDistance + 1;
+		}
+
+		int rightDistance = kdownToTarget_03(node.right, target, k);
+		if (rightDistance != -1) {
+			if (k == rightDistance) {
+				System.out.println(node.data + " ");
+			} else {
+				kDown_03(node.left, k - rightDistance - 1);
+			}
+			return rightDistance + 1;
+		}
+
+		return -1;
+	}
+
+	public static int Diameter(Node node) {
+
+		if (node == null)
+			return 0;
+
+		int dial = Diameter(node.left);
+		int diar = Diameter(node.right);
+
+		int lh = height(node.left);
+		int rh = height(node.right);
+
+		int dia = lh + rh + 2;
+
+		return Math.max(dia, Math.max(dial, diar));
+
+	}
+
+	public static class diaPair {
+		int diameter;
+		int height;
+
+		public diaPair(int diameter, int height) {
+			this.diameter = diameter;
+			this.height = height;
+		}
+
+	}
+
+	public static diaPair Diameter_02(Node node) {
+
+		if (node == null)
+			return new diaPair(0, -1);
+
+		diaPair dial = Diameter_02(node.left);
+		diaPair diar = Diameter_02(node.right);
+
+		diaPair res = new diaPair(0, -1);
+		res.diameter = Math.max((dial.height + diar.height + 2), Math.max(dial.diameter, diar.diameter));
+		res.height = Math.max(dial.height, diar.height) + 1;
+
+		return res;
+
+	}
+
+	public static int dia;
+
+	public static int Diameter_03(Node node) {
+		if (node == null)
+			return -1;
+
+		int dial = Diameter_03(node.left);
+		int diar = Diameter_03(node.right);
+
+		dia = Math.max(dia, dial + diar + 2);
+		return Math.max(dial, diar) + 1;
+	}
+
+	
+	
 }
