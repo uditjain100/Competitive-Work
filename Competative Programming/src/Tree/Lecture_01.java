@@ -1,7 +1,9 @@
 package Tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Lecture_01 {
 
@@ -76,6 +78,35 @@ public class Lecture_01 {
 		System.out.print("VerticalOrderSum -> ");
 		verticalOrderSum(root);
 
+		System.out.println();
+		System.out.print("BottomView -> ");
+		bottom_view(root);
+
+		System.out.println();
+		System.out.print("TopView -> ");
+		top_view(root);
+
+		System.out.println();
+		System.out.println("DiagonalOrder -> ");
+		diagonal_view(root);
+
+		System.out.print("DiagonalOrderSum -> ");
+		diagonal_view_sum(root);
+
+		System.out.println();
+		System.out.println("AntiDiagonalOrder -> ");
+		anti_diagonal_view(root);
+
+		System.out.print("AntiDiagonalOrderSum -> ");
+		anti_diagonal_view_sum(root);
+
+		System.out.println();
+		System.out.print("Vertical Order (Weight) -> ");
+		VerticalOrder(root);
+
+		System.out.println();
+		System.out.print("DLL -> ");
+		DLL_Display(root);
 	}
 
 	public static class Node {
@@ -698,6 +729,261 @@ public class Lecture_01 {
 			}
 		}
 		System.out.println(res);
+	}
+
+	public static void bottom_view(Node node) {
+
+		width(node, 0);
+		ArrayList<Integer> res = new ArrayList<>();
+		int w = rightMost - leftMost + 1;
+		for (int i = 0; i < w; i++) {
+			res.add(0);
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.set(rn.level, rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		System.out.println(res);
+	}
+
+	public static void top_view(Node node) {
+
+		width(node, 0);
+		ArrayList<Integer> res = new ArrayList<>();
+		int w = rightMost - leftMost + 1;
+		for (int i = 0; i < w; i++) {
+			res.add(-1);
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				if (res.get(rn.level) == -1)
+					res.set(rn.level, rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		System.out.println(res);
+	}
+
+	public static void diagonal_view(Node node) {
+
+		width(node, 0);
+		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+		int w = 1 - leftMost;
+		for (int i = 0; i < w; i++) {
+			res.add(new ArrayList<Integer>());
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.get(rn.level).add(rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level));
+			}
+		}
+		int count = 0;
+		for (ArrayList<Integer> list : res) {
+			System.out.print("Level " + count++ + " -> ");
+			System.out.println(list);
+		}
+
+	}
+
+	public static void diagonal_view_sum(Node node) {
+
+		width(node, 0);
+		ArrayList<Integer> res = new ArrayList<>();
+		int w = 1 - leftMost;
+		for (int i = 0; i < w; i++) {
+			res.add(0);
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.set(rn.level, res.get(rn.level) + rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level));
+			}
+		}
+		System.out.println(res);
+
+	}
+
+	public static void anti_diagonal_view(Node node) {
+
+		width(node, 0);
+		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+		int w = 1 + rightMost;
+		for (int i = 0; i < w; i++) {
+			res.add(new ArrayList<Integer>());
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, 0));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.get(rn.level).add(rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		int count = 0;
+		for (ArrayList<Integer> list : res) {
+			System.out.print("Level " + count++ + " -> ");
+			System.out.println(list);
+		}
+
+	}
+
+	public static void anti_diagonal_view_sum(Node node) {
+
+		width(node, 0);
+		ArrayList<Integer> res = new ArrayList<>();
+		int w = 1 + rightMost;
+		for (int i = 0; i < w; i++) {
+			res.add(0);
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, 0));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.set(rn.level, res.get(rn.level) + rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		System.out.println(res);
+
+	}
+
+	// LeetCode
+	public static class levelPair_02 implements Comparable<levelPair_02> {
+		Node node;
+		int level;
+
+		public levelPair_02(Node node, int level) {
+			this.node = node;
+			this.level = level;
+		}
+
+		@Override
+		public int compareTo(levelPair_02 op) {
+			if (this.level == op.level)
+				return this.node.data - op.node.data;
+			return this.level - op.level;
+		}
+
+	}
+
+	public static void VerticalOrder(Node node) {
+
+		width(node, 0);
+		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+		int w = rightMost - leftMost + 1;
+		for (int i = 0; i < w; i++) {
+			res.add(new ArrayList<Integer>());
+		}
+
+		PriorityQueue<levelPair_02> queue = new PriorityQueue<levelPair_02>();
+		PriorityQueue<levelPair_02> child = new PriorityQueue<levelPair_02>();
+		queue.add(new levelPair_02(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair_02 rn = queue.poll();
+				res.get(rn.level).add(rn.node.data);
+				if (rn.node.left != null)
+					child.add(new levelPair_02(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					child.add(new levelPair_02(rn.node.right, rn.level + 1));
+			}
+			PriorityQueue<levelPair_02> temp = queue;
+			queue = child;
+			child = temp;
+		}
+		int count = 0;
+		System.out.println();
+		for (ArrayList<Integer> list : res) {
+			System.out.print("Level " + count++ + " -> ");
+			System.out.println(list);
+		}
+	}
+
+	public static Node DLLhead = null;
+	public static Node DLLprev = null;
+
+	// Doubly Linked List
+	public static void DLL(Node node) {
+
+		if (node == null)
+			return;
+
+		DLL(node.left);
+
+		if (DLLhead == null) {
+			DLLhead = node;
+		} else {
+			DLLprev.right = node;
+			node.left = DLLprev;
+		}
+
+		DLLprev = node;
+
+		DLL(node.right);
+
+	}
+
+	public static void DLL_Display(Node node) {
+		DLL(node);
+		while (DLLhead != null) {
+			System.out.print(DLLhead.data + " ");
+			DLLhead = DLLhead.right;
+		}
 	}
 
 }
