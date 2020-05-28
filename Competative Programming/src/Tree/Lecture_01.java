@@ -1,6 +1,7 @@
 package Tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Lecture_01 {
 
@@ -47,6 +48,34 @@ public class Lecture_01 {
 		System.out.println("Diameter -> " + Diameter_02(root).diameter + " , Height -> " + Diameter_02(root).height);
 		Diameter_03(root);
 		System.out.println("Diameter -> " + dia);
+
+		System.out.print("LevelOrder -> ");
+		levelOrder_01(root);
+		System.out.println();
+		System.out.println();
+		levelOrder_02(root);
+		System.out.println();
+		System.out.println();
+		levelOrder_03(root);
+		System.out.println();
+		levelOrder_04(root);
+
+		System.out.println();
+		System.out.println();
+		System.out.print("LeftView -> ");
+		left_view(root);
+
+		System.out.println();
+		System.out.print("RightView -> ");
+		right_view(root);
+
+		System.out.println();
+		System.out.println("VerticalOrder -> ");
+		verticalOrder(root);
+
+		System.out.print("VerticalOrderSum -> ");
+		verticalOrderSum(root);
+
 	}
 
 	public static class Node {
@@ -458,6 +487,217 @@ public class Lecture_01 {
 		return Math.max(dial, diar) + 1;
 	}
 
-	
-	
+	public static void levelOrder_01(Node root) {
+
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+
+		while (!queue.isEmpty()) {
+			Node rn = queue.removeFirst();
+			System.out.print(rn.data + " ");
+			if (rn.left != null)
+				queue.addLast(rn.left);
+			if (rn.right != null)
+				queue.addLast(rn.right);
+		}
+
+	}
+
+	public static void levelOrder_02(Node root) {
+
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		LinkedList<Node> child = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+
+		int count = 0;
+		System.out.print("Level " + count + " -> ");
+		while (!queue.isEmpty()) {
+			Node rn = queue.removeFirst();
+			System.out.print(rn.data + " ");
+			if (rn.left != null)
+				child.addLast(rn.left);
+			if (rn.right != null)
+				child.addLast(rn.right);
+			if (queue.isEmpty()) {
+				LinkedList<Node> temp = queue;
+				queue = child;
+				child = temp;
+				count++;
+				System.out.println();
+				System.out.print("Level " + count + " -> ");
+			}
+		}
+
+	}
+
+	// Deleminator Method
+	public static void levelOrder_03(Node root) {
+
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+		queue.addLast(null);
+
+		int count = 0;
+		System.out.print("Level " + count + " -> ");
+		while (!queue.isEmpty()) {
+
+			if (queue.getFirst() == null && queue.size() == 1) {
+				queue.removeFirst();
+				continue;
+			}
+
+			Node rn = queue.removeFirst();
+			System.out.print(rn.data + " ");
+			if (rn.left != null)
+				queue.addLast(rn.left);
+			if (rn.right != null)
+				queue.addLast(rn.right);
+			if (queue.getFirst() == null) {
+				queue.removeFirst();
+				queue.addLast(null);
+				count++;
+				System.out.println();
+				System.out.print("Level " + count + " -> ");
+			}
+		}
+
+	}
+
+	public static void levelOrder_04(Node root) {
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+		int count = 0;
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			System.out.println();
+			System.out.print("Level " + count + " -> ");
+			count++;
+			while (size-- > 0) {
+				Node rn = queue.removeFirst();
+				System.out.print(rn.data + " ");
+				if (rn.left != null)
+					queue.addLast(rn.left);
+				if (rn.right != null)
+					queue.addLast(rn.right);
+			}
+		}
+	}
+
+	public static void left_view(Node root) {
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			System.out.print(queue.getFirst().data + " ");
+			while (size-- > 0) {
+				Node rn = queue.removeFirst();
+				if (rn.left != null)
+					queue.addLast(rn.left);
+				if (rn.right != null)
+					queue.addLast(rn.right);
+			}
+		}
+	}
+
+	public static void right_view(Node root) {
+		LinkedList<Node> queue = new LinkedList<Lecture_01.Node>();
+		queue.addLast(root);
+		Node prev = null;
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				Node rn = queue.removeFirst();
+				prev = rn;
+				if (rn.left != null)
+					queue.addLast(rn.left);
+				if (rn.right != null)
+					queue.addLast(rn.right);
+			}
+			System.out.print(prev.data + " ");
+		}
+	}
+
+	public static int leftMost = Integer.MAX_VALUE;
+	public static int rightMost = Integer.MIN_VALUE;
+
+	public static void width(Node root, int level) {
+
+		if (root == null)
+			return;
+
+		leftMost = Math.min(leftMost, level);
+		rightMost = Math.max(rightMost, level);
+
+		width(root.left, level - 1);
+		width(root.right, level + 1);
+	}
+
+	public static class levelPair {
+		Node node;
+		int level;
+
+		public levelPair(Node node, int level) {
+			this.node = node;
+			this.level = level;
+		}
+	}
+
+	public static void verticalOrder(Node node) {
+
+		width(node, 0);
+		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+		int w = rightMost - leftMost + 1;
+		for (int i = 0; i < w; i++) {
+			res.add(new ArrayList<Integer>());
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.get(rn.level).add(rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		int count = 0;
+		for (ArrayList<Integer> list : res) {
+			System.out.print("Level " + count++ + " -> ");
+			System.out.println(list);
+		}
+	}
+
+	public static void verticalOrderSum(Node node) {
+
+		width(node, 0);
+		ArrayList<Integer> res = new ArrayList<>();
+		int w = rightMost - leftMost + 1;
+		for (int i = 0; i < w; i++) {
+			res.add(0);
+		}
+
+		LinkedList<levelPair> queue = new LinkedList<>();
+		queue.addLast(new levelPair(node, -leftMost));
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				levelPair rn = queue.removeFirst();
+				res.set(rn.level, res.get(rn.level) + rn.node.data);
+				if (rn.node.left != null)
+					queue.addLast(new levelPair(rn.node.left, rn.level - 1));
+				if (rn.node.right != null)
+					queue.addLast(new levelPair(rn.node.right, rn.level + 1));
+			}
+		}
+		System.out.println(res);
+	}
+
 }
