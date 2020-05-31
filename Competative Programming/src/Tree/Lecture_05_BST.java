@@ -19,7 +19,7 @@ public class Lecture_05_BST {
 			this.right = null;
 		}
 	}
-
+	
 	private static Node root;
 
 	public static void constructor() {
