@@ -2,6 +2,8 @@ package Tree;
 
 import java.util.ArrayList;
 
+import Tree.Lecture_05_BST.Node;
+
 public class Lecture_05_BST {
 
 	public static void main(String[] args) {
@@ -19,7 +21,7 @@ public class Lecture_05_BST {
 			this.right = null;
 		}
 	}
-	
+
 	private static Node root;
 
 	public static void constructor() {
@@ -264,6 +266,145 @@ public class Lecture_05_BST {
 		allSol(node.left, data, level + 1, pair);
 		allSol(node.right, data, level + 1, pair);
 
+	}
+
+	// Logic InOrder
+	public static void PredAndSucc(Node node, Node pred, Node succ, int data) {
+
+		Node curr = node;
+		while (curr != null) {
+			if (curr.data == data) {
+				if (curr.left == null) {
+					System.out.println("Pred : " + ((pred != null) ? pred.data : "-1"));
+				} else {
+					pred = curr.left;
+					while (pred.right != null) {
+						pred = pred.right;
+					}
+					System.out.println("Pred : " + ((pred != null) ? pred.data : "-1"));
+				}
+
+				if (curr.right == null) {
+					System.out.println("Succ : " + ((succ != null) ? succ.data : "-1"));
+				} else {
+					succ = curr.right;
+					while (pred.left != null) {
+						pred = pred.left;
+					}
+					System.out.println("Succ : " + ((succ != null) ? succ.data : "-1"));
+				}
+
+			} else if (data < curr.data) {
+				succ = curr;
+				curr = curr.left;
+			} else {
+				pred = curr;
+				curr = curr.right;
+			}
+		}
+
+	}
+
+	public static Node ConstructPreorder(int[] preOrder, int idx, int lb, int ele, int ub) {
+
+		if (ele < lb || ele > ub || idx == preOrder.length) {
+			return null;
+		}
+
+		Node node = new Node(ele);
+		idx++;
+		node.left = ConstructPreorder(preOrder, idx, lb, preOrder[idx], ele);
+		node.right = ConstructPreorder(preOrder, idx, ele, preOrder[idx], ub);
+		return node;
+	}
+
+	public static Node ConstructPreorder_02(int[] preOrder, int idx, int lb, int ub) {
+
+		if (idx == preOrder.length || preOrder[idx] < lb || preOrder[idx] > ub) {
+			return null;
+		}
+
+		Node node = new Node(preOrder[idx++]);
+		node.left = ConstructPreorder_02(preOrder, idx, lb, preOrder[idx]);
+		node.right = ConstructPreorder_02(preOrder, idx, preOrder[idx], ub);
+		return node;
+	}
+
+	public static int HeightPreorder(int[] preOrder, int idx, int lb, int ele, int ub) {
+
+		if (ele < lb || ele > ub || idx == preOrder.length)
+			return -1;
+
+		idx++;
+		int lh = HeightPreorder(preOrder, idx, lb, preOrder[idx], ele);
+		int rh = HeightPreorder(preOrder, idx, ele, preOrder[idx], ub);
+		return Math.max(lh, rh) + 1;
+	}
+
+	public static int HeightPreorder_02(int[] preOrder, int idx, int lb, int ub) {
+
+		if (idx == preOrder.length || preOrder[idx] < lb || preOrder[idx] > ub)
+			return -1;
+
+		idx++;
+		int lh = HeightPreorder_02(preOrder, idx, lb, preOrder[idx]);
+		int rh = HeightPreorder_02(preOrder, idx, preOrder[idx], ub);
+		return Math.max(lh, rh) + 1;
+	}
+
+	public static Node addData(Node node, int data) {
+		if (node == null)
+			return new Node(data);
+
+		if (data < node.data)
+			addData(node.left, data);
+		else
+			addData(node.right, data);
+
+		return node;
+	}
+
+	public static Node addData_IT(Node node, int data) {
+		if (node == null)
+			return new Node(data);
+
+		Node prev = node;
+
+		while (node != null) {
+			prev = node;
+			if (data < node.data) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		if (data < prev.data)
+			prev.left = new Node(data);
+		else
+			prev.right = new Node(data);
+		return node;
+	}
+
+	public static Node removeNode(Node node, int data) {
+
+		if (node == null)
+			return new Node(data);
+
+		if (data < node.data)
+			removeNode(node.left, data);
+		else if (data > node.data)
+			removeNode(node.right, data);
+		else {
+			if (node.left == null || node.right == null)
+				return (node.left == null) ? node.right : node.left;
+
+			int max = maxEle(node.left);
+			node.data = max;
+			node.left = removeNode(node.left, max);
+
+		}
+
+		return node;
 	}
 
 }
