@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 public class Lecture_01 {
 
@@ -104,9 +105,34 @@ public class Lecture_01 {
 		System.out.print("Vertical Order (Weight) -> ");
 		VerticalOrder(root);
 
+//		System.out.println();
+//		System.out.print("DLL -> ");
+//		DLL_Display(root);
+
 		System.out.println();
-		System.out.print("DLL -> ");
-		DLL_Display(root);
+		System.out.print("PreOrder : ");
+		PreOrderTraversal(root);
+
+		System.out.println();
+		System.out.print("InOrder : ");
+		InOrderTraversal(root);
+
+		System.out.println();
+		System.out.print("PostOrder : ");
+		PostOrderTraversal(root);
+
+		System.out.println("Height -> " + height(root));
+
+		System.out.println();
+		PostOrderTraversalForHeight(root);
+		System.out.println();
+
+		System.out.print("InOrder : ");
+		morrisInOrder(root);
+
+		System.out.println();
+		System.out.print("PreOrder : ");
+		morrisPreOrder(root);
 	}
 
 	public static class Node {
@@ -986,5 +1012,246 @@ public class Lecture_01 {
 		}
 	}
 
-	
+	public static class TreePair {
+
+		Node node;
+		boolean selfDone, rightDone, leftDone;
+		int selfData = -1, rightData = -1, leftData = -1;
+		boolean isLeft = false;
+
+		public TreePair(Node node, boolean selfDone, boolean rightDone, boolean leftDone) {
+			this.leftDone = leftDone;
+			this.rightDone = rightDone;
+			this.selfDone = selfDone;
+			this.node = node;
+		}
+
+		public TreePair(Node node, boolean selfDone, boolean rightDone, boolean leftDone, boolean isLeft) {
+			this.leftDone = leftDone;
+			this.rightDone = rightDone;
+			this.selfDone = selfDone;
+			this.node = node;
+			this.isLeft = isLeft;
+		}
+
+	}
+
+	public static void PreOrderTraversal(Node node) {
+
+		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
+		stack.push(new TreePair(node, false, false, false));
+
+		while (!stack.isEmpty()) {
+			TreePair rp = stack.peek();
+			if (!rp.selfDone) {
+				rp.selfDone = true;
+				System.out.print(rp.node.data + " , ");
+			} else if (!rp.leftDone) {
+				rp.leftDone = true;
+				if (rp.node.left != null)
+					stack.push(new TreePair(rp.node.left, false, false, false));
+			} else if (!rp.rightDone) {
+				rp.rightDone = true;
+				if (rp.node.right != null)
+					stack.push(new TreePair(rp.node.right, false, false, false));
+			} else {
+				stack.pop();
+			}
+		}
+
+	}
+
+	public static void InOrderTraversal(Node node) {
+
+		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
+		stack.push(new TreePair(node, false, false, false));
+
+		while (!stack.isEmpty()) {
+			TreePair rp = stack.peek();
+			if (!rp.leftDone) {
+				rp.leftDone = true;
+				if (rp.node.left != null)
+					stack.push(new TreePair(rp.node.left, false, false, false));
+			} else if (!rp.selfDone) {
+				rp.selfDone = true;
+				System.out.print(rp.node.data + " , ");
+			} else if (!rp.rightDone) {
+				rp.rightDone = true;
+				if (rp.node.right != null)
+					stack.push(new TreePair(rp.node.right, false, false, false));
+			} else {
+				stack.pop();
+			}
+		}
+
+	}
+
+	public static void PostOrderTraversal(Node node) {
+
+		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
+		stack.push(new TreePair(node, false, false, false));
+
+		while (!stack.isEmpty()) {
+			TreePair rp = stack.peek();
+			if (!rp.leftDone) {
+				rp.leftDone = true;
+				if (rp.node.left != null)
+					stack.push(new TreePair(rp.node.left, false, false, false));
+			} else if (!rp.rightDone) {
+				rp.rightDone = true;
+				if (rp.node.right != null)
+					stack.push(new TreePair(rp.node.right, false, false, false));
+			} else if (!rp.selfDone) {
+				rp.selfDone = true;
+				System.out.print(rp.node.data + " , ");
+			} else {
+				stack.pop();
+			}
+		}
+	}
+
+	public static void PostOrderTraversalForHeight(Node node) {
+
+		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
+		stack.push(new TreePair(node, false, false, false, false));
+
+		TreePair pair = null;
+		while (!stack.isEmpty()) {
+			TreePair rp = stack.peek();
+			if (!rp.leftDone) {
+				rp.leftDone = true;
+				if (rp.node.left != null)
+					stack.push(new TreePair(rp.node.left, false, false, false, true));
+			} else if (!rp.rightDone) {
+				rp.rightDone = true;
+				if (rp.node.right != null)
+					stack.push(new TreePair(rp.node.right, false, false, false, false));
+			} else if (!rp.selfDone) {
+				rp.selfDone = true;
+				rp.selfData = Math.max(rp.leftData, rp.rightData) + 1;
+			} else {
+				pair = stack.pop();
+				if (stack.size() != 0) {
+					if (rp.isLeft) {
+						rp.leftData = pair.selfData;
+					} else {
+						rp.rightData = pair.selfData;
+					}
+				}
+			}
+		}
+		System.out.println("Height : " + pair.selfData);
+	}
+
+	// Morris Algorithm
+	public static Node rightMostOfLeftNode(Node node, Node curr) {
+		while (node.right != null && node.right != curr) {
+			node = node.right;
+		}
+		return node;
+	}
+
+	public static void morrisInOrder(Node node) {
+		Node curr = node;
+		while (curr != null) {
+			if (curr.left == null) {
+				System.out.print(curr.data + ", ");
+				curr = curr.right;
+			} else {
+				Node rightMost = rightMostOfLeftNode(curr.left, curr);
+				if (rightMost.right == null) {
+					rightMost.right = curr;
+					curr = curr.left;
+				} else {
+					rightMost.right = null;
+					System.out.print(curr.data + ", ");
+					curr = curr.right;
+				}
+			}
+		}
+	}
+
+	public static void morrisPreOrder(Node node) {
+		Node curr = node;
+		while (curr != null) {
+			if (curr.left == null) {
+				System.out.print(curr.data + ", ");
+				curr = curr.right;
+			} else {
+				Node rightMost = rightMostOfLeftNode(curr.left, curr);
+				if (rightMost.right == null) {
+					rightMost.right = curr;
+					System.out.print(curr.data + ", ");
+					curr = curr.left;
+				} else {
+					rightMost.right = null;
+					curr = curr.right;
+				}
+			}
+		}
+	}
+
+	public static Node constructTreeFromPreAndIn(int[] preOrder, int psi, int pei, int[] inOrder, int isi, int iei) {
+
+		if (isi > iei || psi > pei)
+			return null;
+
+		Node node = new Node(preOrder[psi]);
+
+		int idx = isi;
+		while (preOrder[psi] != inOrder[idx]) {
+			idx++;
+		}
+
+		int totalNoOfElements = idx - isi;
+
+		node.left = constructTreeFromPreAndIn(preOrder, psi + 1, psi + totalNoOfElements, inOrder, isi, idx - 1);
+		node.right = constructTreeFromPreAndIn(preOrder, psi + totalNoOfElements + 1, pei, inOrder, idx + 1, iei);
+
+		return node;
+	}
+
+	public static Node constructTreeFromPostAndIn(int[] postOrder, int psi, int pei, int[] inOrder, int isi, int iei) {
+
+		if (isi > iei || psi > pei)
+			return null;
+
+		Node node = new Node(postOrder[pei]);
+
+		int idx = isi;
+		while (postOrder[pei] != inOrder[idx]) {
+			idx++;
+		}
+
+		int totalNoOfElements = idx - isi;
+
+		node.left = constructTreeFromPostAndIn(postOrder, psi, psi + totalNoOfElements - 1, inOrder, isi, idx - 1);
+		node.right = constructTreeFromPostAndIn(postOrder, psi + totalNoOfElements, pei - 1, inOrder, idx + 1, iei);
+
+		return node;
+	}
+
+	public static Node constructTreeFromPreAndPost(int[] preOrder, int prsi, int prei, int[] postOrder, int posi,
+			int poei) {
+
+		if (posi > poei || prsi > prei)
+			return null;
+		if (prsi == prei)
+			return new Node(preOrder[prsi]);
+
+		Node node = new Node(preOrder[prsi]);
+
+		int idx = posi;
+		while (prsi + 1 <= prei && postOrder[idx] != preOrder[prsi + 1]) {
+			idx++;
+		}
+
+		int totalNoOfElements = idx - posi + 1;
+
+		node.left = constructTreeFromPostAndIn(preOrder, prsi, prsi + totalNoOfElements, postOrder, posi, idx);
+		node.right = constructTreeFromPostAndIn(preOrder, prsi + totalNoOfElements + 1, prei, postOrder, idx + 1,
+				poei - 1);
+
+		return node;
+	}
 }
