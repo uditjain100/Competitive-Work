@@ -1110,6 +1110,8 @@ public class Lecture_01 {
 		}
 	}
 
+	
+	//Bug :(
 	public static void PostOrderTraversalForHeight(Node node) {
 
 		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
@@ -1236,19 +1238,18 @@ public class Lecture_01 {
 
 		if (posi > poei || prsi > prei)
 			return null;
-		if (prsi == prei)
-			return new Node(preOrder[prsi]);
-
+		if (posi == poei)
+			return new Node(postOrder[posi]);
 		Node node = new Node(preOrder[prsi]);
 
 		int idx = posi;
-		while (prsi + 1 <= prei && postOrder[idx] != preOrder[prsi + 1]) {
+		while (postOrder[idx] != preOrder[prsi + 1]) {
 			idx++;
 		}
 
 		int totalNoOfElements = idx - posi + 1;
 
-		node.left = constructTreeFromPostAndIn(preOrder, prsi, prsi + totalNoOfElements, postOrder, posi, idx);
+		node.left = constructTreeFromPostAndIn(preOrder, prsi+1, prsi + totalNoOfElements, postOrder, posi, idx);
 		node.right = constructTreeFromPostAndIn(preOrder, prsi + totalNoOfElements + 1, prei, postOrder, idx + 1,
 				poei - 1);
 
