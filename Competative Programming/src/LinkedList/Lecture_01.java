@@ -36,9 +36,8 @@ public class Lecture_01 {
 			return str;
 		}
 
-		
-		//ADD operation
-		
+		// ADD operation
+
 		private void addFirstNode(Node node) {
 			if (isEmpty()) {
 				this.head = node;
@@ -74,7 +73,7 @@ public class Lecture_01 {
 		private void addNodeAt(Node node, int position) throws Exception {
 			if (isEmpty() || position == 0) {
 				this.addFirst(node.data);
-			} else if (position == this.size-1) {
+			} else if (position == this.size - 1) {
 				this.addLast(node.data);
 			} else {
 				Node prev = this.getNodeAt(position - 1);
@@ -90,8 +89,8 @@ public class Lecture_01 {
 			addNodeAt(node, position);
 		}
 
-		//GET operation
-		
+		// GET operation
+
 		public int getFirst() throws Exception {
 			if (this.isEmpty()) {
 				throw new Exception("Linked List is Empty :(");
@@ -158,8 +157,8 @@ public class Lecture_01 {
 			return curr;
 		}
 
-		//REMOVE operation
-		
+		// REMOVE operation
+
 		public int removeFirst() throws Exception {
 			if (this.isEmpty()) {
 				throw new Exception("Linked List is Empty :(");
@@ -193,9 +192,9 @@ public class Lecture_01 {
 			if (position >= this.size) {
 				throw new Exception("Null Pointer Exception :(");
 			}
-			if(position == 0) {
+			if (position == 0) {
 				return this.removeFirst();
-			}else if(position == this.size - 1){
+			} else if (position == this.size - 1) {
 				return this.removeLast();
 			}
 			Node prev = getNodeAt(position - 1);
@@ -239,9 +238,9 @@ public class Lecture_01 {
 			if (position >= this.size) {
 				throw new Exception("Null Pointer Exception :(");
 			}
-			if(position == 0) {
+			if (position == 0) {
 				return this.removeFirstNode();
-			}else if(position == this.size - 1){
+			} else if (position == this.size - 1) {
 				return this.removeLastNode();
 			}
 			Node prev = getNodeAt(position - 1);
@@ -252,20 +251,136 @@ public class Lecture_01 {
 			return rn;
 		}
 
-	}
+		// Additional functions
 
+		public Node getMidPoint(Node head) {
+			Node slow = head;
+			Node fast = head;
+
+			while (fast != null && fast.next != null && fast.next.next != null) {
+				slow = slow.next;
+				fast = fast.next.next;
+			}
+			return slow;
+		}
+
+		public Node reverseLL(Node head) {
+			
+			if (head == null || head.next == null)
+				return head;
+
+			Node prev = null;
+			Node curr = head;
+			Node ahead = curr.next;
+
+			while (curr.next != null) {
+				curr.next = prev;
+
+				prev = curr;
+				curr = ahead;
+				if (ahead != null) {
+					ahead = ahead.next;
+				}
+			}
+			curr.next = prev;
+
+			return curr;
+		}
+
+		public Node reverseLLData() {
+
+			if (this.head == null || this.head.next == null)
+				return this.head;
+
+			Node curr = this.head;
+			Node midNode = getMidPoint(this.head);
+
+			Node newHead = midNode.next;
+			newHead = this.reverseLL(newHead);
+			midNode.next = null;
+
+			Node newCurr = newHead;
+			while (curr != null || newCurr != null) {
+				int data = curr.data;
+				curr.data = newHead.data;
+				newHead.data = data;
+
+				curr = curr.next;
+				newCurr = newCurr.next;
+			}
+
+			newHead = this.reverseLL(newHead);
+			midNode.next = newHead;
+
+			return this.head;
+		}
+
+		public boolean isPalindrome() {
+
+			if (this.head == null || this.head.next == null)
+				return true;
+
+			Node curr = this.head;
+			Node midNode = getMidPoint(this.head);
+			midNode.next = null;
+
+			Node newHead = midNode.next;
+			newHead = this.reverseLL(newHead);
+
+			Node newCurr = newHead;
+			while (newCurr != null || curr != null) {
+				if (curr.data != newCurr.data)
+					return false;
+
+				curr = curr.next;
+				newCurr = newCurr.next;
+			}
+
+			return true;
+		}
+
+		public void reorderList() {
+
+			Node curr = head;
+			Node midNode = getMidPoint(head);
+
+			Node newHead = midNode.next;
+			newHead = this.reverseLL(newHead);
+			midNode.next = null;
+						
+			Node newCurr = newHead;
+			while (curr != null || newCurr != null) {
+				if (curr.next == null) {
+					curr.next = newCurr;
+					break;
+				} else {
+					Node temp1 = curr.next;
+					Node temp2 = newCurr.next;
+
+					curr.next = newCurr;
+					newCurr.next = temp1;
+
+					curr = temp1;
+					newCurr = temp2;
+				}
+			}
+
+		}
+
+	}
+	
 	public static void main(String[] args) throws Exception {
 		LinkedList list = new LinkedList();
-		System.out.println(list.size());
 		for (int i = 1; i <= 5; i++) {
 			list.addFirst((-1) * i * 10);
 		}
-		System.out.println(list);
 		for (int i = 1; i <= 5; i++) {
 			list.addLast(i * 10);
 		}
+		list.addAt(0, 5);
 		System.out.println(list);
-		list.addAt(0, 9);
-		System.out.println(list);		
+
+		list.reorderList();
+		System.out.println(list);
 	}
 }
