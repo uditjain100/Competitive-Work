@@ -265,7 +265,7 @@ public class Lecture_01 {
 		}
 
 		public Node reverseLL(Node head) {
-			
+
 			if (head == null || head.next == null)
 				return head;
 
@@ -347,7 +347,7 @@ public class Lecture_01 {
 			Node newHead = midNode.next;
 			newHead = this.reverseLL(newHead);
 			midNode.next = null;
-						
+
 			Node newCurr = newHead;
 			while (curr != null || newCurr != null) {
 				if (curr.next == null) {
@@ -364,11 +364,151 @@ public class Lecture_01 {
 					newCurr = temp2;
 				}
 			}
+		}
 
+		public Node merge2SortedList(Node l1, Node l2) {
+
+			Node head = new Node(-1);
+			Node temp = head;
+
+			Node curr1 = l1;
+			Node curr2 = l2;
+
+			while (curr1 != null && curr2 != null) {
+				if (curr1.data <= curr2.data) {
+					temp.next = curr1;
+					temp = curr1;
+					curr1 = curr1.next;
+				} else {
+					temp.next = curr2;
+					temp = curr2;
+					curr2 = curr2.next;
+				}
+			}
+
+			if (curr1 != null) {
+				temp.next = curr1;
+			}
+			if (curr2 != null) {
+				temp.next = curr2;
+			}
+
+			return head.next;
+		}
+
+		public Node OddEvenLL(Node head) {
+
+			if (head == null || head.next == null)
+				return head;
+
+			Node node1 = head;
+			Node node2 = head.next;
+			Node curr = node2;
+
+			while (node1.next != null && node2.next != null) {
+				node1.next = node1.next.next;
+				node2.next = node2.next.next;
+
+				node1 = node1.next;
+				node2 = node2.next;
+			}
+
+			node1.next = curr;
+			return head;
+		}
+
+		public boolean isCycleExist(Node head) {
+			if (head == null || head.next == null)
+				return false;
+
+			Node slow = head;
+			Node fast = head;
+
+			while (fast != null && fast.next != null) {
+				slow = slow.next;
+				fast = fast.next.next;
+				if (slow == fast)
+					return true;
+			}
+
+			return false;
+		}
+
+		public Node TailCycleIntersection(Node head) {
+			if (head == null || head.next == null)
+				return null;
+
+			Node slow = head;
+			Node fast = head;
+
+			while (fast != null && fast.next != null) {
+				slow = slow.next;
+				fast = fast.next.next;
+				if (slow == fast)
+					break;
+			}
+
+			if (slow != fast)
+				return null;
+
+			slow = head;
+
+			while (slow != fast) {
+				slow = slow.next;
+				fast = fast.next;
+			}
+			return slow;
+		}
+
+		public Node intersectionOf2Lists(Node head1, Node head2) {
+
+			if (head1 == null || head2 == null)
+				return null;
+			if (head1.next == null && head2.next == null) {
+				if (head1 != head2)
+					return null;
+				else
+					return head1;
+			}
+
+			Node curr = head1;
+			while (curr.next != null) {
+				curr = curr.next;
+			}
+			curr.next = head2;
+
+			Node slow = head1;
+			Node fast = head1;
+
+			while (fast != null && fast.next != null) {
+				slow = slow.next;
+				fast = fast.next.next;
+				if (slow == fast)
+					break;
+			}
+
+			slow = head1;
+
+			while (slow != fast) {
+				slow = slow.next;
+				fast = fast.next;
+			}
+			return slow;
+		}
+
+		public Node sortList(Node head) {
+			if (head == null || head.next == null)
+				return head;
+
+			Node midNode = getMidPoint(head);
+			Node newHead = midNode.next;
+			midNode.next = null;
+
+			return merge2SortedList(sortList(head), sortList(newHead));
 		}
 
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		LinkedList list = new LinkedList();
 		for (int i = 1; i <= 5; i++) {
