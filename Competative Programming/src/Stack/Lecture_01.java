@@ -251,4 +251,24 @@ public class Lecture_01 {
 
 	}
 
+	public static int rainWaterTrapping(int[] arr) {
+		int height = arr.length;
+		int li = 0;
+		int ri = height - 1;
+		int lMaxH = 0;
+		int rMaxH = 0;
+		int water = 0;
+
+		while (li <= ri) {
+			lMaxH = Math.max(lMaxH, arr[li]);
+			rMaxH = Math.max(rMaxH, arr[ri]);
+			if (lMaxH <= rMaxH) {
+				water += lMaxH - arr[li++];
+			} else {
+				water += rMaxH - arr[ri--];
+			}
+		}
+		return water;
+	}
+
 }
