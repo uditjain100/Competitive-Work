@@ -12,6 +12,14 @@ public class Lecture_02 {
 		System.out.println(goldMineDP());
 		System.out.println(goldMineTable());
 
+		System.out.println(setIntoSubsets(5, 3));
+		System.out.println(setIntoSubsetsDP(5, 3));
+		System.out.println(setIntoSubsetsTable(5, 3));
+
+		System.out.println(countAllPalindromeSubsequence("abcd", 0, 3));
+		System.out.println(countAllPalindromeSubsequenceDP("abcd", 0, 3, new int[4][4]));
+		System.out.println(countAllPalindromeSubsequenceTable("abcd"));
+
 	}
 
 	public static int friendsPairing(int n) {
@@ -103,6 +111,7 @@ public class Lecture_02 {
 
 				int cmd = Integer.MAX_VALUE;
 				int cmr = Integer.MAX_VALUE;
+
 				if (sr + 1 <= er)
 					cmd = mp[sr + 1][sc];
 				if (sc + 1 <= ec)
@@ -214,6 +223,284 @@ public class Lecture_02 {
 			max = Math.max(max, gm[i][0]);
 		}
 		return max;
+	}
+
+	public static int setIntoSubsets(int n, int k) {
+
+		if (n == 0 || k == 0 || k > n)
+			return 0;
+
+		if (k == 1 || n == k)
+			return 1;
+
+		int count = 0;
+		count += setIntoSubsets(n - 1, k - 1);
+		count += setIntoSubsets(n - 1, k) * k;
+		return count;
+	}
+
+	public static int[][] sis = new int[100][100];
+
+	public static int setIntoSubsetsDP(int n, int k) {
+
+		if (n == 0 || k == 0 || k > n)
+			return 0;
+
+		if (k == 1 || n == k)
+			return 1;
+
+		if (sis[k][n] != 0)
+			return sis[k][n];
+
+		int count = 0;
+		count += setIntoSubsetsDP(n - 1, k - 1);
+		count += setIntoSubsetsDP(n - 1, k) * k;
+		return sis[k][n] = count;
+	}
+
+	public static int setIntoSubsetsTable(int n, int k) {
+
+		int[][] sis = new int[k + 1][n + 1];
+		for (int i = 0; i <= k; i++) {
+			for (int j = 0; j <= n; j++) {
+				if (j == 0 || i == 0 || i > j) {
+					sis[i][j] = 0;
+					continue;
+				}
+
+				if (i == 1 || i == j) {
+					sis[i][j] = 1;
+					continue;
+				}
+
+				int count = 0;
+				if (i - 1 >= 0 && j - 1 >= 0)
+					count += sis[i - 1][j - 1];
+				if (i - 1 >= 0)
+					count += sis[i][j - 1] * i;
+				sis[i][j] = count;
+
+			}
+		}
+		return sis[k][n];
+	}
+
+	public static boolean[][] isSubstringPalindrome(String str) {
+		boolean[][] sp = new boolean[str.length()][str.length()];
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0)
+					sp[i][j] = true;
+				else if (gap == 1 && str.charAt(i) == str.charAt(j))
+					sp[i][j] = true;
+				else if (str.charAt(i) == str.charAt(j) && sp[i + 1][j - 1])
+					sp[i][j] = true;
+			}
+		}
+		return sp;
+	}
+
+	public static int[] longestPalindromeSubstring(String str) {
+		int[][] sp = new int[str.length()][str.length()];
+		int maxLen = Integer.MIN_VALUE;
+		int si = 0;
+		int ei = 0;
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0)
+					sp[i][j] = 1;
+				else if (gap == 1 && str.charAt(i) == str.charAt(j))
+					sp[i][j] = 2;
+				else if (str.charAt(i) == str.charAt(j) && sp[i + 1][j - 1] != 0)
+					sp[i][j] = gap + 1;
+				if (maxLen < sp[i][j]) {
+					maxLen = sp[i][j];
+					si = i;
+					ei = j;
+				}
+			}
+		}
+		int[] res = new int[] { maxLen, si, ei };
+		return res;
+	}
+
+	public static int countAllPalindromeSubstring(String str) {
+		int[][] sp = new int[str.length()][str.length()];
+		int count = 0;
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0)
+					sp[i][j] = 1;
+				else if (gap == 1 && str.charAt(i) == str.charAt(j))
+					sp[i][j] = 2;
+				else if (str.charAt(i) == str.charAt(j) && sp[i + 1][j - 1] != 0)
+					sp[i][j] = gap + 1;
+				count += (sp[i][j] != 0) ? 1 : 0;
+			}
+		}
+		return count;
+	}
+
+	public static int longestPalindromeSubsequence(String str, int si, int ei, boolean[][] isPalindrome) {
+
+		if (isPalindrome[si][ei]) {
+			return ei - si + 1;
+		}
+
+		int len = 0;
+		if (str.charAt(si) == str.charAt(ei))
+			len = longestPalindromeSubsequence(str, si + 1, ei - 1, isPalindrome) + 2;
+		else
+			len = Math.max(longestPalindromeSubsequence(str, si + 1, ei, isPalindrome),
+					longestPalindromeSubsequence(str, si, ei - 1, isPalindrome));
+		return len;
+	}
+
+	public static int longestPalindromeSubsequenceDP(String str, int si, int ei, int[][] lps,
+			boolean[][] isPalindrome) {
+
+		if (isPalindrome[si][ei]) {
+			return ei - si + 1;
+		}
+
+		if (lps[si][ei] != 0)
+			return lps[si][ei];
+
+		int len = 0;
+		if (str.charAt(si) == str.charAt(ei))
+			len = longestPalindromeSubsequenceDP(str, si + 1, ei - 1, lps, isPalindrome) + 2;
+		else
+			len = Math.max(longestPalindromeSubsequenceDP(str, si + 1, ei, lps, isPalindrome),
+					longestPalindromeSubsequenceDP(str, si, ei - 1, lps, isPalindrome));
+		return lps[si][ei] = len;
+	}
+
+	public static int longestPalindromeSubsequenceTable(String str, boolean[][] isPalindrome) {
+		int[][] lps = new int[str.length()][str.length()];
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int si = 0, ei = gap; ei < str.length(); si++, ei++) {
+				if (isPalindrome[si][ei]) {
+					lps[si][ei] = ei - si + 1;
+					continue;
+				}
+
+				int len = 0;
+				if (str.charAt(si) == str.charAt(ei))
+					len = lps[si + 1][ei - 1] + 2;
+				else
+					len = Math.max(lps[si + 1][ei], lps[si][ei - 1]);
+				lps[si][ei] = len;
+			}
+		}
+		return lps[0][str.length() - 1];
+	}
+
+	public static int distinctSubseq(String str, String target, int sl, int tl) {
+
+		if (sl < tl)
+			return 0;
+
+		if (tl == 0)
+			return 1;
+
+		int count = 0;
+		if (str.charAt(sl - 1) == target.charAt(tl - 1))
+			count += Math.max(distinctSubseq(str, target, sl - 1, tl - 1), distinctSubseq(str, target, sl - 1, tl));
+		else
+			count += distinctSubseq(str, target, sl - 1, tl);
+
+		return count;
+	}
+
+	public static int distinctSubseqDP(String str, String target, int sl, int tl, int[][] ds) {
+		if (sl < tl)
+			return 0;
+		if (tl == 0)
+			return 1;
+		if (ds[sl][tl] != 0)
+			return ds[sl][tl];
+
+		if (str.charAt(sl - 1) == target.charAt(tl - 1))
+			return ds[sl][tl] = distinctSubseqDP(str, target, sl - 1, tl - 1, ds)
+					+ distinctSubseqDP(str, target, sl - 1, tl, ds);
+
+		return ds[sl][tl] = distinctSubseqDP(str, target, sl - 1, tl, ds);
+	}
+
+	public static int distinctSubseqTable(String str, String target) {
+		int[][] ds = new int[str.length() + 1][target.length() + 1];
+		for (int sl = 0; sl <= str.length(); sl++) {
+			for (int tl = 0; tl <= target.length(); tl++) {
+				if (sl < tl) {
+					ds[sl][tl] = 0;
+					continue;
+				}
+				if (tl == 0) {
+					ds[sl][tl] = 1;
+					continue;
+				}
+
+				if (str.charAt(sl - 1) == target.charAt(tl - 1))
+					ds[sl][tl] = ds[sl - 1][tl - 1] + ds[sl - 1][tl];
+				else
+					ds[sl][tl] = ds[sl - 1][tl];
+			}
+		}
+		return ds[str.length()][target.length()];
+	}
+
+	public static int countAllPalindromeSubsequence(String str, int i, int j) {
+
+		if (i > j)
+			return 0;
+		if (i == j)
+			return 1;
+
+		int middleString = countAllPalindromeSubsequence(str, i + 1, j - 1);
+		int excludeLast = countAllPalindromeSubsequence(str, i, j - 1);
+		int excludeFirst = countAllPalindromeSubsequence(str, i + 1, j);
+
+		int ans = excludeFirst + excludeLast;
+		return (str.charAt(i) == str.charAt(j)) ? ans + 1 : ans - middleString;
+	}
+
+	public static int countAllPalindromeSubsequenceDP(String str, int i, int j, int[][] cap) {
+
+		if (i > j)
+			return 0;
+		if (i == j)
+			return 1;
+
+		if (cap[i][j] != 0)
+			return cap[i][j];
+
+		int middleString = countAllPalindromeSubsequenceDP(str, i + 1, j - 1, cap);
+		int excludeLast = countAllPalindromeSubsequenceDP(str, i, j - 1, cap);
+		int excludeFirst = countAllPalindromeSubsequenceDP(str, i + 1, j, cap);
+
+		int ans = excludeFirst + excludeLast;
+		return cap[i][j] = ans + ((str.charAt(i) == str.charAt(j)) ? 1 : -middleString);
+	}
+
+	public static int countAllPalindromeSubsequenceTable(String str) {
+
+		int[][] cap = new int[str.length()][str.length()];
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (i == j) {
+					cap[i][j] = 1;
+					continue;
+				}
+
+				int middleString = cap[i + 1][j - 1];
+				int excludeLast = cap[i][j - 1];
+				int excludeFirst = cap[i + 1][j];
+
+				int ans = excludeFirst + excludeLast;
+				cap[i][j] = (str.charAt(i) == str.charAt(j)) ? ans + 1 : ans - middleString;
+			}
+		}
+		return cap[0][str.length() - 1];
 	}
 
 }
