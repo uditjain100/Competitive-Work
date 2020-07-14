@@ -28,6 +28,8 @@ public class Lecture_03 {
 
 		CoinChange(new int[] { 2, 3, 5, 7 }, 10, 0, 0);
 		System.out.println(ccmin);
+
+		System.out.println(CoinChangeTable(new int[] { 2, 3, 5, 7 }, 10));
 	}
 
 	public static int longestCommonSusbsequence(String str1, String str2, int i, int j) {
@@ -414,7 +416,6 @@ public class Lecture_03 {
 	public static void CoinChange(int[] arr, int target, int idx, int res) {
 		if (target == 0) {
 			ccmin = Math.min(res, ccmin);
-			System.out.println("ccmin : " + ccmin);
 			return;
 		}
 
@@ -425,20 +426,46 @@ public class Lecture_03 {
 
 	}
 
-//	public static int CoinChangeTable(int[] arr, int target) {
-//		int[] ccp = new int[target + 1];
-//		ccp[0] = 1;
-//		int min = Integer.MAX_VALUE;
-//		for (int ele : arr) {
-//			int res = 0;
-//			for (int i = ele; i <= target; i++) {
-//				ccp[i] += ccp[i - ele];
-//				if (ccp[i - ele] != 0)
-//					res++;
-//			}
-//			min = Math.min(min, res);
-//		}
-//		return min;
-//	}
+	public static int CoinChangeDP(int[] arr, int target, int[] cc) {
+		if (target == 0)
+			return cc[target] = 0;
 
+		if (cc[target] != 0)
+			return cc[target];
+
+		int height = Integer.MAX_VALUE;
+		for (int i = 0; i < arr.length; i++) {
+			if (target - arr[i] >= 0) {
+				int rh = CoinChangeDP(arr, target - arr[i], cc);
+				if (rh != Integer.MAX_VALUE && height > rh + 1) {
+					height = rh + 1;
+				}
+			}
+		}
+		return cc[target] = height;
+	}
+
+	public static int CoinChangeTable(int[] arr, int target) {
+		int[] cc = new int[target + 1];
+		for (int t = 0; t <= target; t++) {
+			if (t == 0) {
+				cc[t] = 0;
+				continue;
+			}
+
+			int height = Integer.MAX_VALUE;
+			for (int i = 0; i < arr.length; i++) {
+				if (t - arr[i] >= 0) {
+					int rh = cc[t - arr[i]];
+					if (rh != Integer.MAX_VALUE && height > rh + 1) {
+						height = rh + 1;
+					}
+				}
+			}
+			cc[t] = height;
+		}
+		return cc[target];
+	}
+
+	
 }
