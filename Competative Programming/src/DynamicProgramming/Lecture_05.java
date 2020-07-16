@@ -6,13 +6,36 @@ public class Lecture_05 {
 
 		System.out.println(CoinChangeCombination(new int[] { 2, 3, 5, 7 }, 10, 0));
 		System.out.println(CoinChangeCombination01(new int[] { 2, 3, 5, 7 }, 10, 0));
+		System.out.println(CoinChangeCombination0101(new int[] { 2, 3, 5, 7 }, 10, 4));
 		int[] arr = new int[] { 2, 3, 5, 7 };
 		int[][] a = new int[arr.length + 1][11];
 		System.out.println(CoinChangeCombinationDP01(arr, 10, 0, a));
+		int[][] a1 = new int[arr.length + 1][11];
+		System.out.println(CoinChangeCombinationDP0101(arr, 10, 4, a1));
 		System.out.println(CoinChangeCombinationTable01(arr, 10));
+		System.out.println(CoinChangeCombinationTable0101(arr, 10));
+		int[][] a2 = CoinChangeCombinationTable0102(arr, 10);
+		System.out.println(CoinChangeCombinationDP0102(arr, 10, 4, "", a2));
+
+		int[] wt = { 10, 20, 30 };
+		int[] values = { 60, 100, 120 };
+		int[][] t = Knapsack01(wt, 50);
+		KnapSack011(wt, values, 50, wt.length, 0, t);
+		System.out.println(maxValue);
+		System.out.println(KnapSack02(wt, values, 50, wt.length, new int[wt.length + 1][51]));
+		System.out.println(KnapSackTable03(wt, values, 50));
+
+		int[] wts = { 1, 3, 4, 5 };
+		int[] value = { 10, 40, 50, 70 };
+		System.out.println(unBoundedKnapsack01(wts, value, 0, 8, 0));
+		System.out.println(maxVal);
+		System.out.println(unBoundedKnapsack02(wts, value, 0, 8));
+		System.out.println(unBoundedKnapsackDP02(wts, value, 0, 8, new int[wts.length + 1][9]));
+		System.out.println(unBoundedKnapsackTable02(wts, value, 8));
+		System.out.println(unBoundedKnapsackTable03(wts, value, 8));
 	}
 
-	// Single coin
+	// Single coin Questions
 	public static int CoinChangeCombination(int[] arr, int target, int idx) {
 		if (target == 0)
 			return 1;
@@ -39,12 +62,29 @@ public class Lecture_05 {
 		return count;
 	}
 
+	public static int CoinChangeCombination0101(int[] arr, int target, int idx) {
+		if (idx == 0 || target == 0) {
+			if (target == 0)
+				return 1;
+			return 0;
+		}
+
+		int count = 0;
+		if (target - arr[idx - 1] >= 0)
+			count += CoinChangeCombination0101(arr, target - arr[idx - 1], idx - 1);
+		count += CoinChangeCombination0101(arr, target, idx - 1);
+		return count;
+	}
+
 	public static int CoinChangeCombinationDP01(int[] arr, int target, int idx, int[][] cccs) {
 		if (idx == arr.length || target == 0) {
 			if (target == 0)
 				return cccs[idx][target] = 1;
 			return cccs[idx][target] = 0;
 		}
+
+		if (cccs[idx][target] != 0)
+			return cccs[idx][target];
 
 		int count = 0;
 		if (target - arr[idx] >= 0)
@@ -53,8 +93,24 @@ public class Lecture_05 {
 		return cccs[idx][target] = count;
 	}
 
-	public static int CoinChangeCombinationTable01(int[] arr, int target) {
+	public static int CoinChangeCombinationDP0101(int[] arr, int target, int idx, int[][] cccs) {
+		if (idx == 0 || target == 0) {
+			if (target == 0)
+				return cccs[idx][target] = 1;
+			return cccs[idx][target] = 0;
+		}
 
+		if (cccs[idx][target] != 0)
+			return cccs[idx][target];
+
+		int count = 0;
+		if (target - arr[idx - 1] >= 0)
+			count += CoinChangeCombinationDP0101(arr, target - arr[idx - 1], idx - 1, cccs);
+		count += CoinChangeCombinationDP0101(arr, target, idx - 1, cccs);
+		return cccs[idx][target] = count;
+	}
+
+	public static int CoinChangeCombinationTable01(int[] arr, int target) {
 		int[][] cccs = new int[arr.length + 1][target + 1];
 		for (int i = arr.length; i >= 0; i--) {
 			for (int j = 0; j <= target; j++) {
@@ -75,6 +131,276 @@ public class Lecture_05 {
 			}
 		}
 		return cccs[0][target];
+	}
+
+	public static int CoinChangeCombinationTable0101(int[] arr, int target) {
+		int[][] cccs = new int[arr.length + 1][target + 1];
+		for (int i = 0; i <= arr.length; i++) {
+			for (int j = 0; j <= target; j++) {
+				if (i == 0 || j == 0) {
+					if (j == 0) {
+						cccs[i][j] = 1;
+						continue;
+					}
+					cccs[i][j] = 0;
+					continue;
+				}
+
+				int count = 0;
+				if (j - arr[i - 1] >= 0)
+					count += cccs[i - 1][j - arr[i - 1]];
+				count += cccs[i - 1][j];
+				cccs[i][j] = count;
+			}
+		}
+		return cccs[arr.length][target];
+	}
+
+	public static int[][] CoinChangeCombinationTable0102(int[] arr, int target) {
+		boolean[][] cccs = new boolean[arr.length + 1][target + 1];
+		for (int i = 0; i <= arr.length; i++) {
+			for (int j = 0; j <= target; j++) {
+				if (i == 0 || j == 0) {
+					if (j == 0) {
+						cccs[i][j] = true;
+					}
+					continue;
+				}
+
+				if (j - arr[i - 1] >= 0)
+					cccs[i][j] = cccs[i - 1][j - arr[i - 1]];
+				cccs[i][j] = cccs[i][j] || cccs[i - 1][j];
+			}
+		}
+		int[][] res = new int[arr.length + 1][target + 1];
+		for (int i = 0; i < cccs.length; i++) {
+			for (int j = 0; j < cccs[i].length; j++) {
+				if (cccs[i][j]) {
+					res[i][j] = 1;
+					System.out.print("1,");
+				} else {
+					res[i][j] = 0;
+					System.out.print("0,");
+				}
+			}
+			System.out.println();
+		}
+		return res;
+	}
+
+	public static int CoinChangeCombinationDP0102(int[] arr, int target, int idx, String ans, int[][] cccs) {
+		if (idx == 0 || target == 0) {
+			if (target == 0) {
+				System.out.println(ans);
+				return 1;
+			}
+			return 0;
+		}
+
+		int count = 0;
+		if (target - arr[idx - 1] >= 0 && cccs[idx - 1][target - arr[idx - 1]] == 1)
+			count += CoinChangeCombinationDP0102(arr, target - arr[idx - 1], idx - 1, ans + arr[idx - 1], cccs);
+		if (cccs[idx - 1][target] == 1)
+			count += CoinChangeCombinationDP0102(arr, target, idx - 1, ans, cccs);
+		return count;
+	}
+
+	// Knapsack01 Problem
+	// Method 01 (Boolean Method)
+	public static int[][] Knapsack01(int[] wt, int weight) {
+		boolean[][] cccs = new boolean[wt.length + 1][weight + 1];
+		for (int i = 0; i <= wt.length; i++) {
+			for (int j = 0; j <= weight; j++) {
+				if (i == 0 || j == 0) {
+					cccs[i][j] = true;
+					continue;
+				}
+
+				if (j - wt[i - 1] >= 0)
+					cccs[i][j] = cccs[i - 1][j - wt[i - 1]];
+				cccs[i][j] = cccs[i][j] || cccs[i - 1][j];
+			}
+		}
+		int[][] res = new int[wt.length + 1][weight + 1];
+		for (int i = 0; i < cccs.length; i++) {
+			for (int j = 0; j < cccs[i].length; j++) {
+				if (cccs[i][j])
+					res[i][j] = 1;
+				else
+					res[i][j] = 0;
+			}
+		}
+		return res;
+	}
+
+	public static int maxValue = Integer.MIN_VALUE;
+
+	public static void KnapSack011(int[] wt, int[] values, int weight, int idx, int ans, int[][] cccs) {
+		if (idx == 0 || weight == 0) {
+			maxValue = Math.max(maxValue, ans);
+			return;
+		}
+
+		if (weight - wt[idx - 1] >= 0 && cccs[idx - 1][weight - wt[idx - 1]] == 1)
+			KnapSack011(wt, values, weight - wt[idx - 1], idx - 1, ans + values[idx - 1], cccs);
+		if (cccs[idx - 1][weight] == 1)
+			KnapSack011(wt, values, weight, idx - 1, ans, cccs);
+	}
+
+	// Knapsack01 Problem
+	// Method 02 (Memorization Method)
+	public static int KnapSack02(int[] wt, int[] values, int weight, int idx, int[][] cccs) {
+		if (idx == 0 || weight == 0) {
+			return 0;
+		}
+
+		if (cccs[idx][weight] != 0)
+			return cccs[idx][weight];
+
+		int maxVal = Integer.MIN_VALUE;
+		if (weight - wt[idx - 1] >= 0)
+			maxVal = Math.max(maxVal, KnapSack02(wt, values, weight - wt[idx - 1], idx - 1, cccs) + values[idx - 1]);
+		maxVal = Math.max(maxVal, KnapSack02(wt, values, weight, idx - 1, cccs));
+		return cccs[idx][weight] = maxVal;
+	}
+
+	// Knapsack01 Problem
+	// Method 02 (Tabulation Method)
+	public static int KnapSackTable03(int[] wt, int[] values, int weight) {
+		int[][] cccs = new int[wt.length + 1][weight + 1];
+		for (int i = 0; i <= wt.length; i++) {
+			for (int j = 0; j <= weight; j++) {
+				if (i == 0 || j == 0) {
+					cccs[i][j] = 0;
+					continue;
+				}
+
+				int maxVal = Integer.MIN_VALUE;
+				if (j - wt[i - 1] >= 0)
+					maxVal = Math.max(maxVal, cccs[i - 1][j - wt[i - 1]] + values[i - 1]);
+				maxVal = Math.max(maxVal, cccs[i - 1][j]);
+				cccs[i][j] = maxVal;
+			}
+		}
+		return cccs[wt.length][weight];
+	}
+
+	// KnapsackUnbounded Problem
+	// Method 01 (Global Variable Method)
+	public static int maxVal = Integer.MIN_VALUE;
+
+	public static int unBoundedKnapsack01(int[] wt, int[] values, int idx, int target, int ans) {
+		if (idx == wt.length || target == 0) {
+			if (target == 0) {
+				maxVal = Math.max(maxVal, ans);
+				return 1;
+			}
+			return 0;
+		}
+
+		int count = 0;
+		if (target - wt[idx] >= 0)
+			count += unBoundedKnapsack01(wt, values, idx, target - wt[idx], ans + values[idx]);
+		count += unBoundedKnapsack01(wt, values, idx + 1, target, ans);
+		return count;
+	}
+
+	// KnapsackUnbounded Problem
+	// Method 02 (Recursive Combination Infinite Method)
+	public static int unBoundedKnapsack02(int[] wt, int[] values, int idx, int target) {
+		if (idx == wt.length) {
+			return 0;
+		}
+
+		int maxValue = Integer.MIN_VALUE;
+		if (target - wt[idx] >= 0)
+			maxValue = Math.max(maxValue, unBoundedKnapsack02(wt, values, idx, target - wt[idx]) + values[idx]);
+		maxValue = Math.max(maxValue, unBoundedKnapsack02(wt, values, idx + 1, target));
+		return maxValue;
+	}
+
+	// KnapsackUnbounded Problem
+	// Method 03 (Memorization Combination Infinite Method)
+	public static int unBoundedKnapsackDP02(int[] wt, int[] values, int idx, int target, int[][] ukp) {
+		if (idx == wt.length) {
+			return ukp[idx][target] = 0;
+		}
+
+		if (ukp[idx][target] != 0)
+			return ukp[idx][target];
+
+		int maxValue = Integer.MIN_VALUE;
+		if (target - wt[idx] >= 0)
+			maxValue = Math.max(maxValue, unBoundedKnapsackDP02(wt, values, idx, target - wt[idx], ukp) + values[idx]);
+		maxValue = Math.max(maxValue, unBoundedKnapsackDP02(wt, values, idx + 1, target, ukp));
+		return ukp[idx][target] = maxValue;
+	}
+
+	// KnapsackUnbounded Problem
+	// Method 04 (Tabular Combination Infinite Proper Method)
+	public static int unBoundedKnapsackTable02(int[] wt, int[] values, int target) {
+		int[][] ukp = new int[wt.length + 1][target + 1];
+		for (int i = wt.length; i >= 0; i--) {
+			for (int j = 0; j <= target; j++) {
+				if (i == wt.length) {
+					ukp[i][j] = 0;
+					continue;
+				}
+
+				int maxValue = Integer.MIN_VALUE;
+				if (j - wt[i] >= 0)
+					maxValue = Math.max(maxValue, ukp[i][j - wt[i]] + values[i]);
+				maxValue = Math.max(maxValue, ukp[i + 1][j]);
+				ukp[i][j] = maxValue;
+			}
+		}
+		return ukp[0][target];
+	}
+
+	// KnapsackUnbounded Problem
+	// Method 05 (Tabular Combination Infinite Smart Method)
+	public static int unBoundedKnapsackTable03(int[] wt, int[] values, int target) {
+		int[] ukp = new int[target + 1];
+		ukp[0] = 0;
+		for (int i = 0; i < wt.length; i++)
+			for (int j = wt[i]; j <= target; j++)
+				ukp[j] = Math.max(ukp[j], ukp[j - wt[i]] + values[i]);
+		return ukp[target];
+	}
+
+	public static int editDistance(String w1, String w2, int i, int j, int[][] ed) {
+		if (i == 0 || j == 0)
+			return ed[i][j] = (i == 0) ? j : i;
+
+		if (ed[i][j] != 0)
+			return ed[i][j];
+
+		if (w1.charAt(i - 1) == w2.charAt(j - 1))
+			return ed[i][j] = editDistance(w1, w2, i - 1, j - 1, ed);
+
+		int insert = editDistance(w1, w2, i, j - 1, ed);
+		int replace = editDistance(w1, w2, i - 1, j - 1, ed);
+		int delete = editDistance(w1, w2, i - 1, j, ed);
+
+		return ed[i][j] = Math.min(Math.min(insert, replace), delete) + 1;
+	}
+
+	public static int editDistanceTable(String w1, String w2) {
+		int[][] ed = new int[w1.length() + 1][w2.length() + 1];
+		for (int i = 0; i <= w1.length(); i++) {
+			for (int j = 0; j <= w2.length(); j++) {
+				if (i == 0) {
+					ed[i][j] = j;
+				} else if (j == 0) {
+					ed[i][j] = i;
+				} else if (w1.charAt(i - 1) == w2.charAt(j - 1)) {
+					ed[i][j] = ed[i - 1][j - 1];
+				} else {
+					ed[i][j] = Math.min(Math.min(ed[i][j - 1], ed[i - 1][j - 1]), ed[i - 1][j]) + 1;
+				}
+			}
+		}
+		return ed[w1.length()][w2.length()];
 	}
 
 }
