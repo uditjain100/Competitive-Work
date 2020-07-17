@@ -403,4 +403,41 @@ public class Lecture_05 {
 		return ed[w1.length()][w2.length()];
 	}
 
+	public static int targetSum(int[] arr, int sum, int target, int idx, int[][] ts) {
+
+		if (target == sum || idx == 0) {
+			if (target == sum)
+				return ts[idx][sum] = 1;
+			return ts[idx][sum] = 0;
+		}
+
+		if (ts[idx][sum] != -1)
+			return ts[idx][sum];
+
+		int include = targetSum(arr, sum - arr[idx - 1], target, idx - 1, ts);
+		int exclude = targetSum(arr, sum + arr[idx - 1], target, idx - 1, ts);
+
+		return ts[idx][sum] = include + exclude;
+	}
+
+	public static int targetSumTable(int[] arr, int target) {
+
+		int[][] ts = new int[arr.length + 1][2 * target + 1];
+		ts[0][0 + target] = 1;
+		for (int i = 0; i < arr.length + 1; i++) {
+			for (int j = 0; j < 2 * target + 1; j++) {
+				if (target == j || i == 0) {
+					if (target == j) {
+						ts[i][j] = 1;
+						continue;
+					}
+					ts[i][j] = 0;
+					continue;
+				}
+				ts[i][j] = ts[i - 1][j - arr[i - 1]] + ts[i - 1][j + arr[i - 1]];
+			}
+		}
+		return ts[arr.length][2 * target];
+	}
+
 }
