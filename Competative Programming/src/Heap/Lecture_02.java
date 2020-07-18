@@ -3,6 +3,7 @@ package Heap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class Lecture_02 {
@@ -31,6 +32,8 @@ public class Lecture_02 {
 		System.out.println(Kthlargest(arr, 7));
 		System.out.println(KthSmallest(arr, 2));
 		Occurece("usqwfhsscqucuwssfSUC");
+		System.out.println(maxConsecutiveElement(new int[] { 100, 4, 200, 1, 3, 2 }));
+
 	}
 
 	public static void PriorityObject() {
@@ -87,6 +90,37 @@ public class Lecture_02 {
 			}
 		}
 		System.out.println(map);
+	}
+
+	public static int maxConsecutiveElement(int[] arr) {
+		HashSet<Integer> set = new HashSet<Integer>();
+
+		for (int ele : arr)
+			set.add(ele);
+
+		int maxCount = 0;
+		for (int ele : arr) {
+			if (set.isEmpty() || !set.contains(ele))
+				continue;
+			int count = 0;
+			set.remove(ele);
+			int prev = ele - 1;
+			int next = ele + 1;
+
+			while (!set.isEmpty() && set.contains(prev)) {
+				set.remove(prev);
+				prev--;
+				count++;
+			}
+			while (!set.isEmpty() && set.contains(next)) {
+				set.remove(next);
+				next++;
+				count++;
+			}
+			maxCount = Math.max(count, maxCount);
+		}
+		return maxCount;
+
 	}
 
 }

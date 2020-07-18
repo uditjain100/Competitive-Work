@@ -23,7 +23,7 @@ public class Lecture_06 {
 		display(MaxSumDecIncSubsequence(arr));
 		display(MaxSumBitonicSubsequence(arr));
 		display(MaxSumInverseBitonicSubsequence(arr));
-		
+
 		int[][] a = { { 5, 4 }, { 6, 4 }, { 6, 7 }, { 2, 3 } };
 		System.out.println(russianDoll(a));
 		System.out.println(NumberofLongestIncreasingSubsequenceLTR(arr));
@@ -345,6 +345,9 @@ public class Lecture_06 {
 		return maxis;
 	}
 
+	// Alphabetical Order
+	// Job Scheduling
+
 	// Error
 	public static int NumberofLongestIncreasingSubsequenceLTR(int[] arr) {
 		int[] lis = new int[arr.length];
@@ -385,4 +388,6 @@ public class Lecture_06 {
 		return maxCount;
 	}
 
+	
+	
 }
