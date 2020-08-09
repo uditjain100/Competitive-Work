@@ -37,7 +37,6 @@ public class Lecture_01 {
 		}
 
 		// ADD operation
-
 		private void addFirstNode(Node node) {
 			if (isEmpty()) {
 				this.head = node;
@@ -90,7 +89,6 @@ public class Lecture_01 {
 		}
 
 		// GET operation
-
 		public int getFirst() throws Exception {
 			if (this.isEmpty()) {
 				throw new Exception("Linked List is Empty :(");
@@ -158,7 +156,6 @@ public class Lecture_01 {
 		}
 
 		// REMOVE operation
-
 		public int removeFirst() throws Exception {
 			if (this.isEmpty()) {
 				throw new Exception("Linked List is Empty :(");

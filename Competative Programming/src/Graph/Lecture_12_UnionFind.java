@@ -92,6 +92,7 @@ public class Lecture_12_UnionFind {
 
 		// for ascending => this - other
 		// for descending => other - this
+		// Sorting on the basis of weight of edges
 		Arrays.sort(arr, (int[] a, int[] b) -> {
 			return a[2] - b[2];
 		});

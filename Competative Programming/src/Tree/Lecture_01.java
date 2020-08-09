@@ -181,7 +181,7 @@ public class Lecture_01 {
 
 	public static int height(Node node) {
 		if (node == null)
-//	here -1 indicated the height in terms of number of edges and if
+//	here -1 indicates the height in terms of number of edges and if
 //	it is 0 then this will be height in terms of number of nodes.
 			return -1;
 		return Math.max(height(node.left), height(node.right)) + 1;
@@ -199,7 +199,6 @@ public class Lecture_01 {
 		return Math.min(node.data, Math.min(Min(node.left), Min(node.right)));
 	}
 
-	// Root to NOde path algo
 	public static boolean find(Node node, int text) {
 		if (node == null)
 			return false;
@@ -241,8 +240,9 @@ public class Lecture_01 {
 
 	}
 
+	// Root to Node path algorithm
 	public static boolean RTNP(Node node, int data, ArrayList<Node> path) {
-
+		
 		if (node == null) {
 			return false;
 		}
@@ -1110,8 +1110,7 @@ public class Lecture_01 {
 		}
 	}
 
-	
-	//Bug :(
+	// Bug :(
 	public static void PostOrderTraversalForHeight(Node node) {
 
 		Stack<TreePair> stack = new Stack<Lecture_01.TreePair>();
@@ -1249,7 +1248,7 @@ public class Lecture_01 {
 
 		int totalNoOfElements = idx - posi + 1;
 
-		node.left = constructTreeFromPostAndIn(preOrder, prsi+1, prsi + totalNoOfElements, postOrder, posi, idx);
+		node.left = constructTreeFromPostAndIn(preOrder, prsi + 1, prsi + totalNoOfElements, postOrder, posi, idx);
 		node.right = constructTreeFromPostAndIn(preOrder, prsi + totalNoOfElements + 1, prei, postOrder, idx + 1,
 				poei - 1);
 

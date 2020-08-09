@@ -34,7 +34,7 @@ public class Lecture_01 {
 			if (isMaxHeap)
 				return this.list.get(x) - this.list.get(y);
 			else
-				return this.list.get(x) - this.list.get(y);
+				return this.list.get(y) - this.list.get(x);
 		}
 
 		public void downHeapify(int pi) {
@@ -91,7 +91,7 @@ public class Lecture_01 {
 			upHeapify(list.size() - 1);
 		}
 
-		public int remove(int data) {
+		public int remove() {
 			if (this.isEmpty())
 				return -1;
 
@@ -123,6 +123,19 @@ public class Lecture_01 {
 
 	public static void main(String[] args) {
 
+		int[] arr = { 9, 2, 5, 4, 7, 6, 8, 3 };
+		HeapSort(arr);
+		for (int c : arr)
+			System.out.print(c + ", ");
+		System.out.println();
+
+	}
+
+	public static void HeapSort(int[] arr) {
+		Heap heap = new Heap(arr, false);
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = heap.remove();
+		}
 	}
 
 }

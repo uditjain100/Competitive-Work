@@ -101,7 +101,7 @@ public class Lecture_01 {
 		Stack stack2 = new Stack(arr.length);
 
 		int[] ans = new int[arr.length];
-		Arrays.fill(ans, -2);
+		Arrays.fill(ans, Integer.MIN_VALUE);
 
 		for (int i = 0; i < arr.length; i++) {
 
@@ -127,7 +127,7 @@ public class Lecture_01 {
 		}
 
 		for (int i = 0; i < ans.length; i++)
-			if (ans[i] == -2)
+			if (ans[i] == Integer.MIN_VALUE)
 				ans[i] = ans.length;
 
 		return ans;

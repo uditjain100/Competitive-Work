@@ -8,7 +8,7 @@ public class Sorting {
 		// TODO Auto-generated method stub
 
 		int[] arr = { 9, 2, 5, 4, 7, 6, 8, 3 };
-		QuickSort(arr);
+		ShellSort(arr);
 		for (int c : arr)
 			System.out.print(c + ", ");
 		System.out.println();
@@ -214,4 +214,21 @@ public class Sorting {
 		}
 	}
 
+	// Space O(1)
+	// Time O(n*2)
+	public static void ShellSort(int[] arr) {
+		for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+			for (int i = gap; i < arr.length; i++) {
+				int temp = arr[i];
+				int j = i;
+				for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+					arr[j] = arr[j - gap];
+				}
+				arr[j] = temp;
+			}
+		}
+	}
+
+	
+	
 }
