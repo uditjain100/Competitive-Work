@@ -85,6 +85,7 @@ public class Lecture_13_Trie {
 
 	public static ArrayList<String> res = new ArrayList<String>();
 
+	// Word Search
 	public static ArrayList<String> findWords(char[][] arr, ArrayList<String> words) {
 
 		if (arr.length == 0 || arr[0].length == 0 || words.size() == 0) {

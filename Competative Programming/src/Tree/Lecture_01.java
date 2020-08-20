@@ -945,6 +945,7 @@ public class Lecture_01 {
 
 	}
 
+	// Vertical Order on the basis of weight of node at same level
 	public static void VerticalOrder(Node node) {
 
 		width(node, 0);

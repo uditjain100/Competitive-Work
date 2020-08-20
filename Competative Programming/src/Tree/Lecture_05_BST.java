@@ -386,7 +386,6 @@ public class Lecture_05_BST {
 	}
 
 	public static Node removeNode(Node node, int data) {
-
 		if (node == null)
 			return new Node(data);
 
@@ -403,7 +402,6 @@ public class Lecture_05_BST {
 			node.left = removeNode(node.left, max);
 
 		}
-
 		return node;
 	}
 

@@ -61,7 +61,6 @@ public class Lecture_02 {
 		if (sr == er && sc == ec)
 			return arr[sr][sc];
 
-		int cost = Integer.MAX_VALUE;
 		int cmd = Integer.MAX_VALUE;
 		int cmr = Integer.MAX_VALUE;
 
@@ -70,9 +69,7 @@ public class Lecture_02 {
 		if (sc + 1 <= ec)
 			cmr = minPath(arr, sr, sc + 1, er, ec);
 
-		cost = Math.min(cmr, cmd);
-
-		return cost + arr[sr][sc];
+		return Math.min(cmr, cmd) + arr[sr][sc];
 	}
 
 	public static int[][] mp = new int[100][100];
@@ -403,13 +400,9 @@ public class Lecture_02 {
 		if (tl == 0)
 			return 1;
 
-		int count = 0;
 		if (str.charAt(sl - 1) == target.charAt(tl - 1))
-			count += Math.max(distinctSubseq(str, target, sl - 1, tl - 1), distinctSubseq(str, target, sl - 1, tl));
-		else
-			count += distinctSubseq(str, target, sl - 1, tl);
-
-		return count;
+			return distinctSubseq(str, target, sl - 1, tl - 1) + distinctSubseq(str, target, sl - 1, tl);
+		return distinctSubseq(str, target, sl - 1, tl);
 	}
 
 	public static int distinctSubseqDP(String str, String target, int sl, int tl, int[][] ds) {

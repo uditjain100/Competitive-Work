@@ -31,7 +31,7 @@ public class DP {
 		System.out.println(BoardPathBiasedTable(new int[] { 1, 2, 3, 4, 5, 6 }, 10));
 
 	}
-
+	
 	public static long fibonacci(int n) {
 		if (n == 0)
 			return 0;
@@ -178,7 +178,6 @@ public class DP {
 					mp[sr][sc] = 1;
 					continue;
 				}
-
 				int count = 0;
 				if (sr + 1 <= er)
 					count += mp[sr + 1][sc];
