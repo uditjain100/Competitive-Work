@@ -237,6 +237,7 @@ public class Lecture_03 {
 		return mdp[0][0];
 	}
 
+	// Infinite Coins Questions
 	public static int CoinChangePremutation(int[] arr, int target, int i, int j) {
 		if (i == arr.length || target == j) {
 			if (target == j) {
@@ -356,7 +357,7 @@ public class Lecture_03 {
 	}
 
 	public static int CoinChangeCombinationTable(int[] arr, int target) {
-
+		
 		int[][] ccc = new int[arr.length + 1][target + 1];
 		for (int i = arr.length; i >= 0; i--) {
 			for (int j = target; j >= 0; j--) {
@@ -467,5 +468,4 @@ public class Lecture_03 {
 		return cc[target];
 	}
 
-	
 }
