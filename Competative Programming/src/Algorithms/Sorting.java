@@ -1,5 +1,8 @@
 package Algorithms;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import Heap.Lecture_01.Heap;
 
 public class Sorting {
@@ -229,6 +232,51 @@ public class Sorting {
 		}
 	}
 
-	
-	
+	// Space O(n+k)
+	// Time O(d*(n+k))
+	public static void RadixSort(int[] arr) {
+		int max = Integer.MIN_VALUE;
+		for (int ele : arr)
+			max = Math.max(max, ele);
+		for (int pos = 1; (max / pos) > 0; pos *= 10)
+			radix_pos_count_sort(arr, pos);
+	}
+
+	public static void radix_pos_count_sort(int[] arr, int pos) {
+
+		int[] op = new int[arr.length];
+		int[] count = new int[10];
+
+		for (int i = 0; i < arr.length; i++)
+			count[(arr[i] / pos) % 10]++;
+
+		for (int i = 1; i < 10; i++)
+			count[i] += count[i - 1];
+
+		for (int i = arr.length - 1; i >= 0; i--)
+			op[--count[(arr[i] / pos) % 10]] = arr[i];
+
+		for (int i = 0; i < arr.length; i++)
+			arr[i] = op[i];
+	}
+
+	public static void BucketSort(float[] arr) {
+
+		ArrayList<Float>[] buckets = new ArrayList[arr.length];
+		for (int i = 0; i < arr.length; i++)
+			buckets[i] = new ArrayList<>();
+
+		for (int i = 0; i < arr.length; i++)
+			buckets[(int) (arr[i] * arr.length)].add(arr[i]);
+
+		for (ArrayList<Float> bucket : buckets)
+			Collections.sort(bucket);
+
+		int idx = 0;
+		for (int i = 0; i < buckets.length; i++)
+			for (int j = 0; j < buckets[i].size(); j++)
+				arr[idx++] = buckets[i].get(j);
+
+	}
+
 }
