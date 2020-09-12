@@ -3,8 +3,6 @@ package Algorithms;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import Heap.Lecture_01.Heap;
-
 public class Sorting {
 
 	public static void main(String[] args) {

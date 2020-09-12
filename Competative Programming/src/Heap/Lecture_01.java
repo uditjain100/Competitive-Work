@@ -94,7 +94,6 @@ public class Lecture_01 {
 		public int remove() {
 			if (this.isEmpty())
 				return -1;
-
 			swap(0, list.size() - 1);
 			int rd = list.remove(list.size() - 1);
 			downHeapify(0);
