@@ -107,45 +107,6 @@ public class Lecture_08 {
 		return dp[0];
 	}
 
-//	"***************************************"
-
-//	Revision
-	public static int per(String str, String ans) {
-
-		if (str.length() == 0) {
-			System.out.println(ans);
-			return 1;
-		}
-
-		int count = 0;
-		for (int i = 0; i <= ans.length(); i++) {
-			count += per(str.substring(1), ans.substring(0, i) + str.charAt(0) + ans.substring(i));
-		}
-		return count;
-
-	}
-
-	public static int per_02(String str, String ans) {
-
-		if (str.length() == 0) {
-			System.out.println(ans);
-			return 1;
-		}
-
-		int count = 0;
-		boolean[] arr = new boolean[26];
-		for (int i = 0; i < str.length(); i++) {
-			if (!arr[str.charAt(i) - 'a']) {
-				arr[str.charAt(i) - 'a'] = true;
-				count += per_02(str.substring(0, i) + str.substring(i + 1), ans + str.charAt(i));
-			}
-		}
-		return count;
-
-	}
-
-//	"***************************************"
-
 	public static HashMap<Character, Integer> freq(String str) {
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 

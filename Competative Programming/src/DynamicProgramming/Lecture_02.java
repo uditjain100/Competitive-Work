@@ -4,41 +4,58 @@ public class Lecture_02 {
 
 	public static void main(String[] args) {
 
-		System.out.println(friendsPairing(10));
-		System.out.println(friendsPairingDP(10));
-		System.out.println(friendsPairingTable(10));
+		// System.out.println(friendsPairing(10));
+		// int n = 10;
+		// int[] fp = new int[n + 1];
+		// System.out.println(friendsPairingDP(n, fp));
+		// display(fp);
+		// System.out.println(friendsPairingTable(10));
 
-		System.out.println(goldMine());
-		System.out.println(goldMineDP());
-		System.out.println(goldMineTable());
+		// System.out.println(goldMine());
+		// System.out.println(goldMineDP());
+		// System.out.println(goldMineTable());
 
-		System.out.println(setIntoSubsets(5, 3));
-		System.out.println(setIntoSubsetsDP(5, 3));
-		System.out.println(setIntoSubsetsTable(5, 3));
+		// System.out.println(setIntoSubsets(5, 3));
+		// System.out.println(setIntoSubsetsDP(5, 3));
+		// System.out.println(setIntoSubsetsTable(5, 3));
 
-		System.out.println(countAllPalindromeSubsequence("abcd", 0, 3));
-		System.out.println(countAllPalindromeSubsequenceDP("abcd", 0, 3, new int[4][4]));
-		System.out.println(countAllPalindromeSubsequenceTable("abcd"));
+		// System.out.println(countAllPalindromeSubsequence("abcd", 0, 3));
+		// System.out.println(countAllPalindromeSubsequenceDP("abcd", 0, 3, new
+		// int[4][4]));
+		// System.out.println(countAllPalindromeSubsequenceTable("abcd"));
 
 	}
 
+	public static void display(int[] arr) {
+		for (int ele : arr)
+			System.out.print(ele + ", ");
+		System.out.println();
+	}
+
+	public static void display(int[][] arr) {
+		for (int[] a : arr) {
+			for (int ele : a)
+				System.out.print(ele + ", ");
+			System.out.println();
+		}
+		System.out.println();
+	}
+
 	public static int friendsPairing(int n) {
-		if (n <= 1)
+		if (n == 0 || n == 1)
 			return 1;
 		int single = friendsPairing(n - 1);
 		int pairUp = friendsPairing(n - 2) * (n - 1);
 		return single + pairUp;
 	}
 
-	public static int[] fp = new int[100000];
-
-	public static int friendsPairingDP(int n) {
-		if (n <= 1)
-			return 1;
+	public static int friendsPairingDP(int n, int[] fp) {
+		if (n == 0 || n == 1)
+			return fp[n] = 1;
 		if (fp[n] != 0)
 			return fp[n];
-		int single = friendsPairingDP(n - 1);
-		int pairUp = friendsPairingDP(n - 2) * (n - 1);
+		int single = friendsPairingDP(n - 1, fp);
+		int pairUp = friendsPairingDP(n - 2, fp) * (n - 1);
 		return fp[n] = single + pairUp;
 	}
 
@@ -57,7 +74,6 @@ public class Lecture_02 {
 	}
 
 	public static int minPath(int[][] arr, int sr, int sc, int er, int ec) {
-
 		if (sr == er && sc == ec)
 			return arr[sr][sc];
 
@@ -72,28 +88,21 @@ public class Lecture_02 {
 		return Math.min(cmr, cmd) + arr[sr][sc];
 	}
 
-	public static int[][] mp = new int[100][100];
-
-	public static int minPathDP(int[][] arr, int sr, int sc, int er, int ec) {
-
+	public static int minPathDP(int[][] arr, int sr, int sc, int er, int ec, int[][] mp) {
 		if (sr == er && sc == ec)
 			return arr[sr][sc];
-
 		if (mp[sr][sc] != 0)
 			return mp[sr][sc];
 
-		int cost = Integer.MAX_VALUE;
 		int cmd = Integer.MAX_VALUE;
 		int cmr = Integer.MAX_VALUE;
 
 		if (sr + 1 <= er)
-			cmd = minPathDP(arr, sr + 1, sc, er, ec);
+			cmd = minPathDP(arr, sr + 1, sc, er, ec, mp);
 		if (sc + 1 <= ec)
-			cmr = minPathDP(arr, sr, sc + 1, er, ec);
+			cmr = minPathDP(arr, sr, sc + 1, er, ec, mp);
 
-		cost = Math.min(cmr, cmd);
-
-		return mp[sr][sc] = cost + arr[sr][sc];
+		return mp[sr][sc] = Math.min(cmr, cmd) + arr[sr][sc];
 	}
 
 	public static int minPathTable(int[][] arr, int er, int ec) {
@@ -130,11 +139,9 @@ public class Lecture_02 {
 
 	public static int goldMineProblem(int[][] arr, int sr, int sc, int er, int ec) {
 
-		if (sc == ec) {
+		if (sc == ec)
 			return arr[sr][sc];
-		}
 
-		int gold = Integer.MIN_VALUE;
 		int a = Integer.MIN_VALUE;
 		int b = Integer.MIN_VALUE;
 		int c = Integer.MIN_VALUE;
@@ -145,8 +152,7 @@ public class Lecture_02 {
 			b = goldMineProblem(arr, sr - 1, sc + 1, er, ec);
 		if (sc + 1 <= ec)
 			c = goldMineProblem(arr, sr, sc + 1, er, ec);
-		gold = Math.max(a, Math.max(b, c));
-		return gold + arr[sr][sc];
+		return Math.max(a, Math.max(b, c)) + arr[sr][sc];
 	}
 
 	public static int goldMineDP() {
@@ -160,15 +166,12 @@ public class Lecture_02 {
 	}
 
 	public static int goldMineProblemDP(int[][] arr, int sr, int sc, int er, int ec, int[][] gm) {
-
-		if (sc == ec) {
+		if (sc == ec)
 			return arr[sr][sc];
-		}
 
 		if (gm[sr][sc] != 0)
 			return gm[sr][sc];
 
-		int gold = Integer.MIN_VALUE;
 		int a = Integer.MIN_VALUE;
 		int b = Integer.MIN_VALUE;
 		int c = Integer.MIN_VALUE;
@@ -179,8 +182,7 @@ public class Lecture_02 {
 			b = goldMineProblemDP(arr, sr - 1, sc + 1, er, ec, gm);
 		if (sc + 1 <= ec)
 			c = goldMineProblemDP(arr, sr, sc + 1, er, ec, gm);
-		gold = Math.max(a, Math.max(b, c));
-		return gm[sr][sc] = gold + arr[sr][sc];
+		return gm[sr][sc] = Math.max(a, Math.max(b, c)) + arr[sr][sc];
 	}
 
 	public static int goldMineTable() {
@@ -189,9 +191,7 @@ public class Lecture_02 {
 	}
 
 	public static int goldMineProblemTable(int[][] arr, int er, int ec) {
-
 		int[][] gm = new int[er + 1][ec + 1];
-
 		for (int sc = ec; sc >= 0; sc--) {
 			for (int sr = er; sr >= 0; sr--) {
 				if (sc == ec) {
@@ -199,7 +199,6 @@ public class Lecture_02 {
 					continue;
 				}
 
-				int gold = Integer.MIN_VALUE;
 				int a = Integer.MIN_VALUE;
 				int b = Integer.MIN_VALUE;
 				int c = Integer.MIN_VALUE;
@@ -210,8 +209,7 @@ public class Lecture_02 {
 					b = gm[sr - 1][sc + 1];
 				if (sc + 1 <= ec)
 					c = gm[sr][sc + 1];
-				gold = Math.max(a, Math.max(b, c));
-				gm[sr][sc] = gold + arr[sr][sc];
+				gm[sr][sc] = Math.max(a, Math.max(b, c)) + arr[sr][sc];
 			}
 		}
 
@@ -236,22 +234,19 @@ public class Lecture_02 {
 		return count;
 	}
 
-	public static int[][] sis = new int[100][100];
-
-	public static int setIntoSubsetsDP(int n, int k) {
-
+	public static int setIntoSubsetsDP(int n, int k, int[][] sis) {
 		if (n == 0 || k == 0 || k > n)
 			return 0;
 
 		if (k == 1 || n == k)
-			return 1;
+			return sis[k][n] = 1;
 
 		if (sis[k][n] != 0)
 			return sis[k][n];
 
 		int count = 0;
-		count += setIntoSubsetsDP(n - 1, k - 1);
-		count += setIntoSubsetsDP(n - 1, k) * k;
+		count += setIntoSubsetsDP(n - 1, k - 1, sis);
+		count += setIntoSubsetsDP(n - 1, k, sis) * k;
 		return sis[k][n] = count;
 	}
 
@@ -339,10 +334,8 @@ public class Lecture_02 {
 	}
 
 	public static int longestPalindromeSubsequence(String str, int si, int ei, boolean[][] isPalindrome) {
-
-		if (isPalindrome[si][ei]) {
+		if (isPalindrome[si][ei])
 			return ei - si + 1;
-		}
 
 		int len = 0;
 		if (str.charAt(si) == str.charAt(ei))
@@ -356,10 +349,8 @@ public class Lecture_02 {
 	public static int longestPalindromeSubsequenceDP(String str, int si, int ei, int[][] lps,
 			boolean[][] isPalindrome) {
 
-		if (isPalindrome[si][ei]) {
+		if (isPalindrome[si][ei])
 			return ei - si + 1;
-		}
-
 		if (lps[si][ei] != 0)
 			return lps[si][ei];
 
@@ -409,7 +400,7 @@ public class Lecture_02 {
 		if (sl < tl)
 			return 0;
 		if (tl == 0)
-			return 1;
+			return ds[sl][tl] = 1;
 		if (ds[sl][tl] != 0)
 			return ds[sl][tl];
 
