@@ -6,9 +6,9 @@ public class Lecture_01 {
 
 	public static class Stack {
 
-		private int[] arr;
-		private int tos;
-		private int size;
+		protected static int[] arr;
+		protected static int tos;
+		protected static int size;
 
 		public Stack() {
 			this.arr = new int[1000000];
@@ -30,8 +30,8 @@ public class Lecture_01 {
 			return this.size == 0;
 		}
 
-		public boolean isFull() {
-			return this.size == this.arr.length;
+		public static boolean isFull() {
+			return size == arr.length;
 		}
 
 		public void push(int data) throws Exception {
