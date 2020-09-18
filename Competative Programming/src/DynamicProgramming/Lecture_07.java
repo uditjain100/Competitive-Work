@@ -1,12 +1,10 @@
 package DynamicProgramming;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class Lecture_07 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		int[] arr = { 2, 3, 4, 5, 6, 7 };
 		System.out.println(MinCostMatrixMuliplication(arr, 0, arr.length - 1));
@@ -18,6 +16,21 @@ public class Lecture_07 {
 		System.out.println(MinCostMatrixMuliplicationTable(arr));
 		System.out.println(MinCostMatrixMuliplicationTableResult(arr));
 		
+	}
+
+	public static void display(int[] arr) {
+		for (int ele : arr)
+			System.out.print(ele + ", ");
+		System.out.println();
+	}
+
+	public static void display(int[][] arr) {
+		for (int[] a : arr) {
+			for (int ele : a)
+				System.out.print(ele + ", ");
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 	// Cut Type
@@ -108,18 +121,16 @@ public class Lecture_07 {
 
 	public static int selfCost(int[] freq, int si, int ei) {
 		int ans = 0;
-		for (int i = si; i <= ei; i++) {
+		for (int i = si; i <= ei; i++)
 			ans += freq[i];
-		}
 		return ans;
 	}
 
 	public static int optimalBST(int[] freq, int si, int ei) {
-
 		int ans = Integer.MAX_VALUE;
 		for (int i = si; i <= ei; i++) {
-			int leftCost = (si == ei) ? 0 : optimalBST(freq, si, i - 1);
-			int rightCost = (si == ei) ? 0 : optimalBST(freq, i + 1, ei);
+			int leftCost = (i == si) ? 0 : optimalBST(freq, si, i - 1);
+			int rightCost = (i == ei) ? 0 : optimalBST(freq, i + 1, ei);
 			int myCost = leftCost + selfCost(freq, si, ei) + rightCost;
 			ans = Math.min(myCost, ans);
 		}
@@ -128,14 +139,13 @@ public class Lecture_07 {
 
 	public static int optimalBST_DP(int[] freq, int si, int ei, int[][] ob) {
 
-		if (ob[si][ei] != 0) {
+		if (ob[si][ei] != 0)
 			return ob[si][ei];
-		}
 
 		int ans = Integer.MAX_VALUE;
 		for (int i = si; i <= ei; i++) {
-			int leftCost = (si == ei) ? 0 : optimalBST_DP(freq, si, i - 1, ob);
-			int rightCost = (si == ei) ? 0 : optimalBST_DP(freq, i + 1, ei, ob);
+			int leftCost = (i == si) ? 0 : optimalBST_DP(freq, si, i - 1, ob);
+			int rightCost = (i == ei) ? 0 : optimalBST_DP(freq, i + 1, ei, ob);
 			int myCost = leftCost + selfCost(freq, si, ei) + rightCost;
 			ans = Math.min(myCost, ans);
 		}
@@ -153,8 +163,8 @@ public class Lecture_07 {
 			for (int si = 0, ei = gap; ei < freq.length; si++, ei++) {
 				int ans = Integer.MAX_VALUE;
 				for (int i = si; i <= ei; i++) {
-					int leftCost = (si == ei) ? 0 : ob[si][i - 1];
-					int rightCost = (si == ei) ? 0 : ob[i + 1][ei];
+					int leftCost = (i == si) ? 0 : ob[si][i - 1];
+					int rightCost = (i == ei) ? 0 : ob[i + 1][ei];
 					int myCost = leftCost + (prefixSum[ei + 1] - prefixSum[si]) + rightCost;
 					ans = Math.min(myCost, ans);
 				}
@@ -181,6 +191,5 @@ public class Lecture_07 {
 		}
 		return bb[si][ei] = ans;
 	}
-
 
 }

@@ -30,22 +30,15 @@ public class Lecture_06 {
 
 	}
 
-	public static void display(int[] arr) {
-		for (int ele : arr)
-			System.out.print(ele + ", ");
-		System.out.println();
-	}
-
 	public static int[] LongestIncreasingSubsequenceTableLTR(int[] arr) {
 		int[] lis = new int[arr.length];
 		lis[0] = 1;
 		int maxis = 1;
 		for (int i = 1; i < arr.length; i++) {
 			int max = 0;
-			for (int j = i - 1; j >= 0; j--) {
+			for (int j = i - 1; j >= 0; j--)
 				if (arr[j] < arr[i])
 					max = Math.max(max, lis[j]);
-			}
 			lis[i] = max + 1;
 			maxis = Math.max(maxis, lis[i]);
 		}
@@ -135,7 +128,6 @@ public class Lecture_06 {
 	}
 
 	public static int[] LongestBitonicSubarray(int[] arr) {
-
 		int[] a = LongestIncreasingSubsequenceTableLTR(arr);
 		int[] b = LongestDecreasingSubsequenceTableLTR(arr);
 		int[] c = LongestIncDecSubsequenceTable(arr);
@@ -151,7 +143,6 @@ public class Lecture_06 {
 	}
 
 	public static int[] LongestInverseBitonicSubarray(int[] arr) {
-
 		int[] a = LongestIncreasingSubsequenceTableLTR(arr);
 		int[] b = LongestDecreasingSubsequenceTableLTR(arr);
 		int[] c = LongestDecIncSubsequenceTable(arr);
@@ -323,9 +314,8 @@ public class Lecture_06 {
 		PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b) -> {
 			return a[0] - b[0];
 		});
-		for (int[] ele : arr) {
+		for (int[] ele : arr)
 			pq.add(ele);
-		}
 		int idx = 0;
 		while (!pq.isEmpty()) {
 			arr[idx++] = pq.remove();
@@ -388,6 +378,19 @@ public class Lecture_06 {
 		return maxCount;
 	}
 
-	
+	public static void display(int[] arr) {
+		for (int ele : arr)
+			System.out.print(ele + ", ");
+		System.out.println();
+	}
+
+	public static void display(int[][] arr) {
+		for (int[] a : arr) {
+			for (int ele : a)
+				System.out.print(ele + ", ");
+			System.out.println();
+		}
+		System.out.println();
+	}
 	
 }

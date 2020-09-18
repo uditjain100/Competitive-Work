@@ -19,6 +19,10 @@ public class Lecture_02 {
 		// System.out.println(setIntoSubsetsDP(5, 3));
 		// System.out.println(setIntoSubsetsTable(5, 3));
 
+		int[][] lcs = new int[8][8];
+		System.out.println(longestPalindromeSubsequenceDP("aabbccaa", 0, 7, lcs, isSubstringPalindrome("aabbccaa")));
+		display(lcs);
+
 		// System.out.println(countAllPalindromeSubsequence("abcd", 0, 3));
 		// System.out.println(countAllPalindromeSubsequenceDP("abcd", 0, 3, new
 		// int[4][4]));
@@ -251,7 +255,6 @@ public class Lecture_02 {
 	}
 
 	public static int setIntoSubsetsTable(int n, int k) {
-
 		int[][] sis = new int[k + 1][n + 1];
 		for (int i = 0; i <= k; i++) {
 			for (int j = 0; j <= n; j++) {
@@ -350,7 +353,7 @@ public class Lecture_02 {
 			boolean[][] isPalindrome) {
 
 		if (isPalindrome[si][ei])
-			return ei - si + 1;
+			return lps[si][ei] = ei - si + 1;
 		if (lps[si][ei] != 0)
 			return lps[si][ei];
 
@@ -384,10 +387,8 @@ public class Lecture_02 {
 	}
 
 	public static int distinctSubseq(String str, String target, int sl, int tl) {
-
 		if (sl < tl)
 			return 0;
-
 		if (tl == 0)
 			return 1;
 
@@ -434,7 +435,6 @@ public class Lecture_02 {
 	}
 
 	public static int countAllPalindromeSubsequence(String str, int i, int j) {
-
 		if (i > j)
 			return 0;
 		if (i == j)
@@ -449,7 +449,6 @@ public class Lecture_02 {
 	}
 
 	public static int countAllPalindromeSubsequenceDP(String str, int i, int j, int[][] cap) {
-
 		if (i > j)
 			return 0;
 		if (i == j)
@@ -467,7 +466,6 @@ public class Lecture_02 {
 	}
 
 	public static int countAllPalindromeSubsequenceTable(String str) {
-
 		int[][] cap = new int[str.length()][str.length()];
 		for (int gap = 0; gap < str.length(); gap++) {
 			for (int i = 0, j = gap; j < str.length(); i++, j++) {

@@ -4,32 +4,65 @@ public class Lecture_03 {
 
 	public static void main(String[] args) {
 
-		System.out.println(longestCommonSusbsequence("qwerty", "wrty", 5, 3));
-		System.out.println(longestCommonSusbsequenceDP("qwerty", "yrwe", 0, 0, new int[6][4]));
-		System.out.println(longestCommonSusbsequenceTable("qwerty", "yrwe"));
+		// System.out.println(longestCommonSusbsequence("qwerty", "wrty", 5, 3));
+		// int[][] lcs = new int[7][5];
+		// System.out.println(longestCommonSusbsequenceDP("pqprqrp", "qpqrr", 0, 0,
+		// lcs));
+		// display(lcs);
+		// System.out.println(longestCommonSusbsequenceTable("qwerty", "yrwe"));
 
-		int[] a = { 1, 3, 7, 1, 7, 5 };
-		int[] b = { 1, 9, 2, 5, 1 };
-		int[][] temp = new int[a.length + 1][b.length + 1];
-		System.out.println(uncrossedLinesDP(a, b, 0, 0, temp));
-		System.out.println(uncrossedLinesTable(a, b));
+		// int[] a = { 1, 3, 7, 1, 7, 5 };
+		// int[] b = { 1, 9, 2, 5, 1 };
+		// int[][] temp = new int[a.length + 1][b.length + 1];
+		// System.out.println(uncrossedLinesDP(a, b, 0, 0, temp));
+		// System.out.println(uncrossedLinesTable(a, b));
 
-		System.out.println(CoinChangeCombination(new int[] { 2, 3, 5, 7 }, 10, 0, 0));
-		System.out.println(CoinChangeCombinationDP(new int[] { 2, 3, 5, 7 }, 10, 0, 0, new int[5][11]));
-		System.out.println(CoinChangeCombinationTable(new int[] { 2, 3, 5, 7 }, 10));
+		// System.out.println(CoinChangePremutationSubsequence(new int[] { 2, 3, 5, 7 },
+		// 10, 0, 0));
+		// int[][] ccp = new int[4][11];
+		// System.out.println(CoinChangePermutationSubsequenceDP(new int[] { 2, 3, 5, 7
+		// }, 10, 0, 0, ccp));
+		// display(ccp);
 
-		int[] ax = new int[11];
-		System.out.println(CoinChangePermutation02(new int[] { 2, 3, 5, 7 }, 10));
-		System.out.println(CoinChangePermutationDP02(new int[] { 2, 3, 5, 7 }, 10, ax));
-		System.out.println(CoinChangePermutationTable02(new int[] { 2, 3, 5, 7 }, 10));
+		// System.out.println(CoinChangePermutationBinomial(new int[] { 2, 3, 5, 7 },
+		// 10));
+		// int[] ccp2 = new int[11];
+		// System.out.println(CoinChangePermutationBinomialDP(new int[] { 2, 3, 5, 7 },
+		// 10, ccp2));
+		// display(ccp2);
+		// System.out.println(CoinChangePermutationBinomialTable(new int[] { 2, 3, 5, 7
+		// }, 10));
 
-		System.out.println(CoinChangeCombination02(new int[] { 2, 3, 5, 7 }, 10, 0));
-		System.out.println(CoinChangeCombinationTable02(new int[] { 2, 3, 5, 7 }, 10));
+		// System.out.println(CoinChangeCombinationSubsequence(new int[] { 2, 3, 5, 7 },
+		// 10, 0, 0));
+		// int[][] ccc = new int[4][11];
+		// System.out.println(CoinChangeCombinationSubsequenceDP(new int[] { 2, 3, 5, 7
+		// }, 10, 0, 0, ccc));
+		// display(ccc);
+		// System.out.println(CoinChangeCombinationSubsequenceTable(new int[] { 2, 3, 5, 7 }, 10));
 
-		CoinChange(new int[] { 2, 3, 5, 7 }, 10, 0, 0);
-		System.out.println(ccmin);
+		// System.out.println(CoinChangeCombinationBinomial(new int[] { 2, 3, 5, 7 }, 10, 0));
+		// System.out.println(CoinChangeCombinationBinomialTable(new int[] { 2, 3, 5, 7 }, 10));
 
-		System.out.println(CoinChangeTable(new int[] { 2, 3, 5, 7 }, 10));
+		// CoinChange(new int[] { 2, 3, 5, 7 }, 10, 0, 0);
+		// System.out.println(ccmin);
+
+		// System.out.println(CoinChangeTable(new int[] { 2, 3, 5, 7 }, 10));
+	}
+
+	public static void display(int[] arr) {
+		for (int ele : arr)
+			System.out.print(ele + ", ");
+		System.out.println();
+	}
+
+	public static void display(int[][] arr) {
+		for (int[] a : arr) {
+			for (int ele : a)
+				System.out.print(ele + ", ");
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 	public static int longestCommonSusbsequence(String str1, String str2, int i, int j) {
@@ -55,9 +88,9 @@ public class Lecture_03 {
 
 		int len = 0;
 		if (str1.charAt(i) == str2.charAt(j))
-			len += longestCommonSusbsequenceDP(str1, str2, i + 1, j + 1, lcs) + 1;
+			len = longestCommonSusbsequenceDP(str1, str2, i + 1, j + 1, lcs) + 1;
 		else
-			len += Math.max(longestCommonSusbsequenceDP(str1, str2, i + 1, j, lcs),
+			len = Math.max(longestCommonSusbsequenceDP(str1, str2, i + 1, j, lcs),
 					longestCommonSusbsequenceDP(str1, str2, i, j + 1, lcs));
 
 		return lcs[i][j] = len;
@@ -136,35 +169,29 @@ public class Lecture_03 {
 	}
 
 	public static int uncrossedLines(int[] a, int[] b, int i, int j) {
-
-		if (i == a.length || j == b.length) {
+		if (i == a.length || j == b.length)
 			return 0;
-		}
 
 		int len = 0;
-		if (a[i] == b[j]) {
-			len += uncrossedLines(a, b, i + 1, j + 1) + 1;
-		} else {
-			len += Math.max(uncrossedLines(a, b, i + 1, j), uncrossedLines(a, b, i, j + 1));
-		}
+		if (a[i] == b[j])
+			len = uncrossedLines(a, b, i + 1, j + 1) + 1;
+		else
+			len = Math.max(uncrossedLines(a, b, i + 1, j), uncrossedLines(a, b, i, j + 1));
 		return len;
 	}
 
 	public static int uncrossedLinesDP(int[] a, int[] b, int i, int j, int[][] ul) {
-
-		if (i == a.length || j == b.length) {
+		if (i == a.length || j == b.length)
 			return ul[i][j] = 0;
-		}
 
 		if (ul[i][j] != 0)
 			return ul[i][j];
 
 		int len = 0;
-		if (a[i] == b[j]) {
-			len += uncrossedLinesDP(a, b, i + 1, j + 1, ul) + 1;
-		} else {
-			len += Math.max(uncrossedLinesDP(a, b, i + 1, j, ul), uncrossedLinesDP(a, b, i, j + 1, ul));
-		}
+		if (a[i] == b[j])
+			len = uncrossedLinesDP(a, b, i + 1, j + 1, ul) + 1;
+		else
+			len = Math.max(uncrossedLinesDP(a, b, i + 1, j, ul), uncrossedLinesDP(a, b, i, j + 1, ul));
 		return ul[i][j] = len;
 	}
 
@@ -179,11 +206,10 @@ public class Lecture_03 {
 				}
 
 				int len = 0;
-				if (a[i] == b[j]) {
+				if (a[i] == b[j])
 					len += ul[i + 1][j + 1] + 1;
-				} else {
+				else
 					len += Math.max(ul[i + 1][j], ul[i][j + 1]);
-				}
 				ul[i][j] = len;
 			}
 		}
@@ -192,9 +218,8 @@ public class Lecture_03 {
 
 	public static int maxDotProduct(int[] a, int[] b, int i, int j) {
 
-		if (i == a.length || j == b.length) {
+		if (i == a.length || j == b.length)
 			return -10 ^ 7;
-		}
 
 		int val = a[i] * b[j];
 		int ba = maxDotProduct(a, b, i + 1, j + 1) + val;
@@ -205,9 +230,8 @@ public class Lecture_03 {
 
 	public static int maxDotProductDP(int[] a, int[] b, int i, int j, int[][] mdp) {
 
-		if (i == a.length || j == b.length) {
+		if (i == a.length || j == b.length)
 			return mdp[i][j] = -10 ^ 7;
-		}
 
 		if (mdp[i][j] != 0)
 			return mdp[i][j];
@@ -238,58 +262,50 @@ public class Lecture_03 {
 	}
 
 	// Infinite Coins Questions
-	public static int CoinChangePremutation(int[] arr, int target, int i, int j) {
-		if (i == arr.length || target == j) {
-			if (target == j) {
+	public static int CoinChangePremutationSubsequence(int[] arr, int target, int idx, int sum) {
+		if (idx == arr.length || target == sum) {
+			if (target == sum)
 				return 1;
-			}
 			return 0;
 		}
 
 		int count = 0;
-		if (j + arr[i] <= target)
-			count += CoinChangePremutation(arr, target, 0, j + arr[i]);
-		count += CoinChangePremutation(arr, target, i + 1, j);
-
+		if (sum + arr[idx] <= target)
+			count += CoinChangePremutationSubsequence(arr, target, 0, sum + arr[idx]);
+		count += CoinChangePremutationSubsequence(arr, target, idx + 1, sum);
 		return count;
 	}
 
-	public static int CoinChangePermutationDP(int[] arr, int target, int i, int j, int[][] ccp) {
-		if (i == arr.length || target == j) {
-			if (target == j) {
-				return ccp[i][j] = 1;
-			}
+	public static int CoinChangePermutationSubsequenceDP(int[] arr, int target, int idx, int sum, int[][] ccp) {
+		if (idx == arr.length || target == sum) {
+			if (target == sum)
+				return ccp[idx][sum] = 1;
 			return 0;
 		}
 
-		if (ccp[i][j] != 0) {
-			return ccp[i][j];
-		}
+		if (ccp[idx][sum] != 0)
+			return ccp[idx][sum];
 
 		int count = 0;
-		if (j + arr[i] <= target)
-			count += CoinChangePermutationDP(arr, target, 0, j + arr[i], ccp);
-		count += CoinChangePermutationDP(arr, target, i + 1, j, ccp);
-
-		return ccp[i][j] = count;
+		if (sum + arr[idx] <= target)
+			count += CoinChangePermutationSubsequenceDP(arr, target, 0, sum + arr[idx], ccp);
+		count += CoinChangePermutationSubsequenceDP(arr, target, idx + 1, sum, ccp);
+		return ccp[idx][sum] = count;
 	}
 
-	public static int CoinChangePermutation02(int[] arr, int target) {
+	// CoinChangePermutationSubsequenceTable Not Possible
 
+	public static int CoinChangePermutationBinomial(int[] arr, int target) {
 		if (target == 0)
 			return 1;
-
 		int count = 0;
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; i++)
 			if (target - arr[i] >= 0)
-				count += CoinChangePermutation02(arr, target - arr[i]);
-		}
-
+				count += CoinChangePermutationBinomial(arr, target - arr[i]);
 		return count;
 	}
 
-	public static int CoinChangePermutationDP02(int[] arr, int target, int[] ccp) {
-
+	public static int CoinChangePermutationBinomialDP(int[] arr, int target, int[] ccp) {
 		if (target == 0)
 			return ccp[target] = 1;
 
@@ -297,67 +313,58 @@ public class Lecture_03 {
 			return ccp[target];
 
 		int count = 0;
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; i++)
 			if (target - arr[i] >= 0)
-				count += CoinChangePermutationDP02(arr, target - arr[i], ccp);
-		}
-
+				count += CoinChangePermutationBinomialDP(arr, target - arr[i], ccp);
 		return ccp[target] = count;
 	}
 
-	public static int CoinChangePermutationTable02(int[] arr, int target) {
+	public static int CoinChangePermutationBinomialTable(int[] arr, int target) {
 		int[] ccp = new int[target + 1];
 		ccp[0] = 1;
 		for (int i = 1; i <= target; i++) {
-
 			int count = 0;
-			for (int j = 0; j < arr.length; j++) {
+			for (int j = 0; j < arr.length; j++)
 				if (i - arr[j] >= 0)
 					count += ccp[i - arr[j]];
-			}
 			ccp[i] = count;
 		}
 		return ccp[target];
 	}
 
-	public static int CoinChangeCombination(int[] arr, int target, int i, int j) {
+	public static int CoinChangeCombinationSubsequence(int[] arr, int target, int i, int j) {
 		if (i == arr.length || target == j) {
-			if (target == j) {
+			if (target == j)
 				return 1;
-			}
 			return 0;
 		}
 
 		int count = 0;
 		if (j + arr[i] <= target)
-			count += CoinChangeCombination(arr, target, i, j + arr[i]);
-		count += CoinChangeCombination(arr, target, i + 1, j);
-
+			count += CoinChangeCombinationSubsequence(arr, target, i, j + arr[i]);
+		count += CoinChangeCombinationSubsequence(arr, target, i + 1, j);
 		return count;
 	}
 
-	public static int CoinChangeCombinationDP(int[] arr, int target, int i, int j, int[][] ccc) {
+	public static int CoinChangeCombinationSubsequenceDP(int[] arr, int target, int i, int j, int[][] ccc) {
 		if (i == arr.length || target == j) {
-			if (target == j) {
+			if (target == j)
 				return ccc[i][j] = 1;
-			}
 			return 0;
 		}
 
-		if (ccc[i][j] != 0) {
+		if (ccc[i][j] != 0)
 			return ccc[i][j];
-		}
 
 		int count = 0;
 		if (j + arr[i] <= target)
-			count += CoinChangeCombinationDP(arr, target, i, j + arr[i], ccc);
-		count += CoinChangeCombinationDP(arr, target, i + 1, j, ccc);
+			count += CoinChangeCombinationSubsequenceDP(arr, target, i, j + arr[i], ccc);
+		count += CoinChangeCombinationSubsequenceDP(arr, target, i + 1, j, ccc);
 
 		return ccc[i][j] = count;
 	}
 
-	public static int CoinChangeCombinationTable(int[] arr, int target) {
-		
+	public static int CoinChangeCombinationSubsequenceTable(int[] arr, int target) {
 		int[][] ccc = new int[arr.length + 1][target + 1];
 		for (int i = arr.length; i >= 0; i--) {
 			for (int j = target; j >= 0; j--) {
@@ -379,21 +386,19 @@ public class Lecture_03 {
 		return ccc[0][0];
 	}
 
-	public static int CoinChangeCombination02(int[] arr, int target, int idx) {
+	public static int CoinChangeCombinationBinomial(int[] arr, int target, int idx) {
 		if (target == 0)
 			return 1;
 
 		int count = 0;
-		for (int i = idx; i < arr.length; i++) {
+		for (int i = idx; i < arr.length; i++)
 			if (target - arr[i] >= 0)
-				count += CoinChangeCombination02(arr, target - arr[i], i);
-		}
-
+				count += CoinChangeCombinationBinomial(arr, target - arr[i], i);
 		return count;
 	}
 
 	// Memorization is not possible of CoinChangeCombination02 in 1D
-	public static int CoinChangeCombinationTable02(int[] arr, int target) {
+	public static int CoinChangeCombinationBinomialTable(int[] arr, int target) {
 		int[] ccp = new int[target + 1];
 		ccp[0] = 1;
 		for (int ele : arr)
@@ -420,10 +425,9 @@ public class Lecture_03 {
 			return;
 		}
 
-		for (int i = idx; i < arr.length; i++) {
+		for (int i = idx; i < arr.length; i++)
 			if (target - arr[i] >= 0)
 				CoinChange(arr, target - arr[i], i, res + 1);
-		}
 
 	}
 
@@ -438,9 +442,8 @@ public class Lecture_03 {
 		for (int i = 0; i < arr.length; i++) {
 			if (target - arr[i] >= 0) {
 				int rh = CoinChangeDP(arr, target - arr[i], cc);
-				if (rh != Integer.MAX_VALUE && height > rh + 1) {
+				if (rh != Integer.MAX_VALUE && height > rh + 1)
 					height = rh + 1;
-				}
 			}
 		}
 		return cc[target] = height;
@@ -458,9 +461,8 @@ public class Lecture_03 {
 			for (int i = 0; i < arr.length; i++) {
 				if (t - arr[i] >= 0) {
 					int rh = cc[t - arr[i]];
-					if (rh != Integer.MAX_VALUE && height > rh + 1) {
+					if (rh != Integer.MAX_VALUE && height > rh + 1)
 						height = rh + 1;
-					}
 				}
 			}
 			cc[t] = height;
