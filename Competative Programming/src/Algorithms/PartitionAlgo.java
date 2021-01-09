@@ -3,8 +3,7 @@ package Algorithms;
 public class PartitionAlgo {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 		int[] arr = { 2, 5, 7, 1, 8, 9, 4, 5, 6, 8, 2, 3 };
 		Partition(arr);
 		for (int ele : arr)

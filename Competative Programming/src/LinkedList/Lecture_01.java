@@ -311,7 +311,7 @@ public class Lecture_01 {
 
 			return this.head;
 		}
-
+		
 		public boolean isPalindrome() {
 
 			if (this.head == null || this.head.next == null)

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Lecture_07_Sudoku {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		// Set01
 		int[][] arr = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 }, { 5, 2, 0, 0, 0, 0, 0, 0, 0 }, { 0, 8, 7, 0, 0, 0, 0, 3, 1 },

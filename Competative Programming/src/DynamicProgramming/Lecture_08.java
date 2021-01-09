@@ -6,30 +6,29 @@ import java.util.HashMap;
 public class Lecture_08 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-//		int[] dp = new int[12];
-//		System.out.println(DecodeWays("13561054946", dp));
-//		for (int ele : dp)
-//			System.out.print(ele + ", ");
-//		System.out.println();
-//		int[] dp1 = new int[12];
-//		System.out.println(DecodeWays_02("13561054946", 0, dp1));
-//		for (int ele : dp1)
-//			System.out.print(ele + ", ");
-//		System.out.println();
-//		System.out.println(DecodeWaysTable_02("13561054946"));
-//
-//		System.out.println(per("abbc", ""));
-//		System.out.println(per_02("abbc", ""));
-//
-//		HashMap<Character, Integer> map = freq("abbc");
-//		HashMap<Character, Integer> ansmap = new HashMap<Character, Integer>();
-//		ansmap.put('a', 0);
-//		ansmap.put('b', 0);
-//		ansmap.put('c', 0);
-//		System.out.println(map);
-//		System.out.println(NoOfSubsequences("abcabc"));
+		
+		// int[] dp = new int[12];
+		// System.out.println(DecodeWays("13561054946", dp));
+		// for (int ele : dp)
+		// System.out.print(ele + ", ");
+		// System.out.println();
+		// int[] dp1 = new int[12];
+		// System.out.println(DecodeWays_02("13561054946", 0, dp1));
+		// for (int ele : dp1)
+		// System.out.print(ele + ", ");
+		// System.out.println();
+		// System.out.println(DecodeWaysTable_02("13561054946"));
+		//
+		// System.out.println(per("abbc", ""));
+		// System.out.println(per_02("abbc", ""));
+		//
+		// HashMap<Character, Integer> map = freq("abbc");
+		// HashMap<Character, Integer> ansmap = new HashMap<Character, Integer>();
+		// ansmap.put('a', 0);
+		// ansmap.put('b', 0);
+		// ansmap.put('c', 0);
+		// System.out.println(map);
+		// System.out.println(NoOfSubsequences("abcabc"));
 
 		System.out.println(DecodeWaysll("**", 0, new int[4]));
 
@@ -144,13 +143,11 @@ public class Lecture_08 {
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
 			dp[i + 1] = dp[i] * 2;
-
-			if (lo[ch - 'a'] != -1) {
-				dp[i + 1] = dp[lo[ch - 'a'] - 1];
-			}
+			if (lo[ch - 'a'] != -1)
+				dp[i + 1] -= dp[lo[ch - 'a'] - 1];
 			lo[ch - 'a'] = i + 1;
 		}
-		return dp[str.length() - 1];
+		return dp[str.length()] - 1;
 	}
 
 	public static int DecodeWaysll(String str, int idx, int[] dp) {

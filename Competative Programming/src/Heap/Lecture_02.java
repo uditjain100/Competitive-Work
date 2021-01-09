@@ -1,7 +1,6 @@
 package Heap;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -10,7 +9,7 @@ public class Lecture_02 {
 
 	public static void main(String[] args) {
 
-//		By Priority Queue is min heap in java
+//		By Default Priority Queue is min heap in java
 
 		int[] arr = { 1, 8, 4, 6, 45, 100, -2, -50, 14, 56 };
 //		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();

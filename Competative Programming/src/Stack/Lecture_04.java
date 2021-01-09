@@ -4,10 +4,10 @@ import Stack.Lecture_03.DynamicStack;
 
 public class Lecture_04 {
 
-    public class QueueUsingTwoStacks {        
+    public class QueueUsingTwoStacks {
         DynamicStack primary;
 
-        public QueueUsingTwoStacks(){
+        public QueueUsingTwoStacks() {
             primary = new DynamicStack();
         }
 
@@ -27,7 +27,7 @@ public class Lecture_04 {
                 throw new Exception("Queue is Full");
             }
         }
-    
+
         public int dequeue() throws Exception {
             try {
                 int rv = primary.pop();
@@ -36,7 +36,7 @@ public class Lecture_04 {
                 throw new Exception("Queue is Empty");
             }
         }
-    
+
         public int getFront() throws Exception {
             try {
                 int rv = primary.pop();
@@ -45,16 +45,17 @@ public class Lecture_04 {
                 throw new Exception("Queue is Empty");
             }
         }
-    
+
         public int size() {
             return primary.size();
         }
-    
+
         public boolean isEmpty() {
             return size() == 0;
         }
-    
-        public void display() throws Exception {    
+
+        public void display() throws Exception {
             System.out.print(primary);
-        }    
+        }
+    }
 }

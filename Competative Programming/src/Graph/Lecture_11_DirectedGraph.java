@@ -21,21 +21,21 @@ public class Lecture_11_DirectedGraph {
 		}
 
 		// Graph 01 :
-//		addEdge(graph, 1, 0);
-//		addEdge(graph, 2, 1);
-//		addEdge(graph, 3, 1);
-//		addEdge(graph, 5, 4);
-//		addEdge(graph, 5, 2);
-//		addEdge(graph, 6, 4);
-//		addEdge(graph, 6, 3);
-//		addEdge(graph, 7, 5);
-//		addEdge(graph, 7, 6);
-//		display(graph);
-//		System.out.println(inDegree(graph));
-//		System.out.println(outDegree(graph));
-//		display(reverseGraph(graph));
-//		System.out.println(topological_sort(graph));
-//		isCycle(graph);
+		// addEdge(graph, 1, 0);
+		// addEdge(graph, 2, 1);
+		// addEdge(graph, 3, 1);
+		// addEdge(graph, 5, 4);
+		// addEdge(graph, 5, 2);
+		// addEdge(graph, 6, 4);
+		// addEdge(graph, 6, 3);
+		// addEdge(graph, 7, 5);
+		// addEdge(graph, 7, 6);
+		// display(graph);
+		// System.out.println(inDegree(graph));
+		// System.out.println(outDegree(graph));
+		// display(reverseGraph(graph));
+		// System.out.println(topological_sort(graph));
+		// isCycle(graph);
 
 		// Graph 02 :
 		addEdge(graph, 1, 1);
@@ -211,7 +211,7 @@ public class Lecture_11_DirectedGraph {
 		ArrayList<Integer>[] reversed_graph = reverseGraph(graph);
 		boolean[] visited = new boolean[N];
 		ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
-		
+
 		for (int i = 0; i < topologicalSort.size(); i++) {
 			ArrayList<Integer> path = new ArrayList<Integer>();
 			if (!visited[topologicalSort.get(i)]) {

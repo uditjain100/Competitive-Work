@@ -2,8 +2,6 @@ package Tree;
 
 import java.util.ArrayList;
 
-import Tree.Lecture_05_BST.Node;
-
 public class Lecture_05_BST {
 
 	public static void main(String[] args) {

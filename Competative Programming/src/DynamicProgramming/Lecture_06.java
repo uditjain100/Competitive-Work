@@ -26,7 +26,6 @@ public class Lecture_06 {
 
 		int[][] a = { { 5, 4 }, { 6, 4 }, { 6, 7 }, { 2, 3 } };
 		System.out.println(russianDoll(a));
-		System.out.println(NumberofLongestIncreasingSubsequenceLTR(arr));
 
 	}
 
@@ -337,46 +336,6 @@ public class Lecture_06 {
 
 	// Alphabetical Order
 	// Job Scheduling
-
-	// Error
-	public static int NumberofLongestIncreasingSubsequenceLTR(int[] arr) {
-		int[] lis = new int[arr.length];
-		int[] res = new int[arr.length];
-		lis[0] = 1;
-		res[0] = 1;
-		int maxlis = 0;
-		for (int i = 1; i < arr.length; i++) {
-			int max = 0;
-			for (int j = i - 1; j >= 0; j--) {
-				if (arr[j] < arr[i])
-					max = Math.max(max, lis[j]);
-			}
-			int count = 0;
-			for (int j = i - 1; j >= 0; j--) {
-				if (arr[j] < arr[i] && max == lis[j])
-					count += res[j];
-			}
-			res[i] = count;
-			lis[i] = max + 1;
-			maxlis = Math.max(maxlis, lis[i]);
-		}
-		int maxCount = 0;
-		for (int i = 0; i < arr.length; i++) {
-			if (lis[i] == maxlis)
-				maxCount = Math.max(res[i], maxCount);
-		}
-
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(lis[i] + ", ");
-		}
-		System.out.println();
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(res[i] + ", ");
-		}
-		System.out.println();
-
-		return maxCount;
-	}
 
 	public static void display(int[] arr) {
 		for (int ele : arr)

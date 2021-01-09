@@ -3,7 +3,6 @@ package Bit_Manipulation;
 public class Lecture_05_Bits {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		// Set01
 		countingBits(10);

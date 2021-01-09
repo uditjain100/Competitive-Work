@@ -11,23 +11,23 @@ public class Lecture_01 {
 		protected static int size;
 
 		public Stack() {
-			this.arr = new int[1000000];
-			this.tos = -1;
-			this.size = 0;
+			arr = new int[1000000];
+			tos = -1;
+			size = 0;
 		}
 
 		public Stack(int N) {
-			this.arr = new int[N];
-			this.tos = -1;
-			this.size = 0;
+			arr = new int[N];
+			tos = -1;
+			size = 0;
 		}
 
 		public int size() {
-			return this.size;
+			return size;
 		}
 
 		public boolean isEmpty() {
-			return this.size == 0;
+			return size == 0;
 		}
 
 		public static boolean isFull() {
@@ -35,11 +35,11 @@ public class Lecture_01 {
 		}
 
 		public void push(int data) throws Exception {
-			if (this.isFull()) {
+			if (isFull()) {
 				throw new Exception("Stack is Full");
 			}
-			this.arr[++tos] = data;
-			this.size++;
+			arr[++tos] = data;
+			size++;
 		}
 
 		public int pop() throws Exception {
@@ -47,9 +47,9 @@ public class Lecture_01 {
 				throw new Exception("Stack is Empty");
 			}
 
-			int rd = this.arr[tos];
-			this.arr[tos--] = 0;
-			this.size--;
+			int rd = arr[tos];
+			arr[tos--] = 0;
+			size--;
 			return rd;
 		}
 
@@ -57,14 +57,14 @@ public class Lecture_01 {
 			if (this.isEmpty()) {
 				throw new Exception("Stack is Empty");
 			}
-			return this.arr[tos];
+			return arr[tos];
 		}
 
 		@Override
 		public String toString() {
 			String str = "";
-			for (int i = 0; i < this.size; i++)
-				str += this.arr[i] + ", ";
+			for (int i = 0; i < size; i++)
+				str += arr[i] + ", ";
 			return str;
 		}
 	}

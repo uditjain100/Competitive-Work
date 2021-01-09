@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Lecture_02_MazePath {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 //		// Set01
 //		System.out.println(get_MazePath(1, 1, 2, 2));
 //		print_MazePath(1, 1, 2, 2, "");

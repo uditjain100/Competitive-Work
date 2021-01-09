@@ -19,21 +19,21 @@ public class DP {
 		System.out.println(MazePath(0, 0, 2, 2));
 
 		System.out.println(MazePathMultiMove(0, 0, 3, 3));
-		int n = 4;
+		n = 4;
 		int[][] mpmm = new int[n][n];
 		System.out.println(MazePathMultiMoveDP(0, 0, n - 1, n - 1, mpmm));
 		display(mpmm);
 		System.out.println(MazePathMultiMoveTable(n - 1, n - 1));
 
 		System.out.println(BoardPath(0, 10));
-		int n = 10;
+		n = 10;
 		int[] bp = new int[n + 1];
 		System.out.println(BoardPathDP(0, n, bp));
 		display(bp);
 		System.out.println(BoardPathTable(10));
 
 		System.out.println(BoardPathBiased(new int[] { 1, 2, 3, 4, 5, 6 }, 0, 10));
-		int n = 10;
+		n = 10;
 		int[] bpbiased = new int[n + 1];
 		System.out.println(BoardPathBiasedDP(new int[] { 1, 2, 3, 4, 5, 6 }, 0, 10, bpbiased));
 		display(bpbiased);

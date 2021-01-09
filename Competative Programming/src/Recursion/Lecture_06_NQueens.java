@@ -3,8 +3,7 @@ package Recursion;
 public class Lecture_06_NQueens {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 		int row = 4;
 		int col = 4;
 		int noq = 4;

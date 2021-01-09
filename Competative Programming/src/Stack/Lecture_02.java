@@ -10,11 +10,11 @@ public class Lecture_02 {
 
 	public static void main(String[] args) {
 
-		precedence.put('^', 4);
-		precedence.put('*', 5);
-		precedence.put('/', 5);
-		precedence.put('+', 6);
-		precedence.put('-', 6);
+		precedence.put('^', 1);
+		precedence.put('*', 2);
+		precedence.put('/', 2);
+		precedence.put('+', 3);
+		precedence.put('-', 3);
 
 		associativity.put('^', false);
 		associativity.put('*', true);
@@ -23,7 +23,9 @@ public class Lecture_02 {
 		associativity.put('-', true);
 
 		System.out.println(InfixToPostfix("K+L-M*N+(O^P)*W/U/V*T+Q"));
+		System.out.println(InfixToPostfix("((((K+L)-(M*N))+(((((O^P)*W)/U)/V)*T))+Q)"));
 		System.out.println(InfixToPrefix("K+L-M*N+(O^P)*W/U/V*T+Q"));
+		System.out.println(InfixToPrefix("((((K+L)-(M*N))+(((((O^P)*W)/U)/V)*T))+Q)"));
 		System.out.println(PostfixToInfix("KL+MN*-OP^W*U/V/T*+Q+"));
 		System.out.println(PrefixToInfix("++-+KL*MN*//*^OPWUVTQ"));
 		System.out.println(PostfixToPrefix("KL+MN*-OP^W*U/V/T*+Q+"));
@@ -41,33 +43,25 @@ public class Lecture_02 {
 			} else {
 				if (stack.isEmpty() || stack.peek() == '(') {
 					stack.push(ch);
-					continue;
-				}
-				if (ch == '(') {
+				} else if (ch == '(') {
 					stack.push(ch);
 				} else if (ch == ')') {
-					while (!stack.isEmpty() && stack.peek() != '(') {
+					while (!stack.isEmpty() && stack.peek() != '(')
 						postfix += stack.pop();
-					}
 					stack.pop();
 				} else if (precedence.get(stack.peek()) > precedence.get(ch)) {
 					stack.push(ch);
 				} else if (precedence.get(stack.peek()) < precedence.get(ch)) {
-					while (!stack.isEmpty() && precedence.get(stack.peek()) <= precedence.get(ch)) {
+					while (!stack.isEmpty() && precedence.get(stack.peek()) <= precedence.get(ch))
 						postfix += stack.pop();
-					}
 					stack.push(ch);
 				} else if (precedence.get(stack.peek()) == precedence.get(ch)) {
-					if (associativity.get(ch)) {
+					if (associativity.get(ch))
 						postfix += stack.pop();
-						stack.push(ch);
-					} else {
-						stack.push(ch);
-					}
+					stack.push(ch);
 				}
 			}
 		}
-
 		while (!stack.isEmpty())
 			postfix += stack.pop();
 
@@ -89,29 +83,22 @@ public class Lecture_02 {
 			} else {
 				if (stack.isEmpty() || stack.peek() == ')') {
 					stack.push(ch);
-					continue;
-				}
-				if (ch == ')') {
+				} else if (ch == ')') {
 					stack.push(ch);
 				} else if (ch == '(') {
-					while (!stack.isEmpty() && stack.peek() != ')') {
+					while (!stack.isEmpty() && stack.peek() != ')')
 						prefix += stack.pop();
-					}
 					stack.pop();
 				} else if (precedence.get(stack.peek()) > precedence.get(ch)) {
 					stack.push(ch);
 				} else if (precedence.get(stack.peek()) < precedence.get(ch)) {
-					while (!stack.isEmpty() && precedence.get(stack.peek()) < precedence.get(ch)) {
+					while (!stack.isEmpty() && precedence.get(stack.peek()) < precedence.get(ch))
 						prefix += stack.pop();
-					}
 					stack.push(ch);
 				} else if (precedence.get(stack.peek()) == precedence.get(ch)) {
-					if (associativity.get(ch)) {
-						stack.push(ch);
-					} else {
+					if (!associativity.get(ch))
 						prefix += stack.pop();
-						stack.push(ch);
-					}
+					stack.push(ch);
 				}
 			}
 		}
@@ -135,7 +122,7 @@ public class Lecture_02 {
 			} else {
 				String val1 = stack.pop();
 				String val2 = stack.pop();
-				stack.push(val2 + ch + val1);
+				stack.push("(" + val2 + ch + val1 + ")");
 			}
 		}
 
@@ -155,7 +142,7 @@ public class Lecture_02 {
 			} else {
 				String val1 = stack.pop();
 				String val2 = stack.pop();
-				stack.push(val1 + ch + val2);
+				stack.push("(" + val1 + ch + val2 + ")");
 			}
 		}
 

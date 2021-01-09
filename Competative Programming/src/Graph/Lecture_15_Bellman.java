@@ -5,8 +5,7 @@ import java.util.Arrays;
 public class Lecture_15_Bellman {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public static boolean Bellman_Ford(int[][] graph, int src) {
