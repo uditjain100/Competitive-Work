@@ -1,22 +1,21 @@
 package Algorithms;
 
 public class PartitionAlgo {
-
 	public static void main(String[] args) {
-		
+
 		int[] arr = { 2, 5, 7, 1, 8, 9, 4, 5, 6, 8, 2, 3 };
-		Partition(arr);
+		int pivotPosition = Partition(arr, 0, arr.length - 1);
+		System.out.println(pivotPosition);
 		for (int ele : arr)
 			System.out.print(ele + ", ");
 
 	}
 
-	public static void Partition(int[] arr) {
-
-		int pivot = arr[arr.length - 1];
-		int i = 0;
-		for (int j = i; j < arr.length - 2; j++) {
-			if (arr[j] > pivot) {
+	public static int Partition(int[] arr, int l, int r) {
+		int pivot = arr[r];
+		int i = l;
+		for (int j = i; j <= arr.length - 2; j++) {
+			if (arr[j] < pivot) {
 				int temp = arr[j];
 				arr[j] = arr[i];
 				arr[i] = temp;
@@ -24,8 +23,9 @@ public class PartitionAlgo {
 			}
 		}
 		int temp = arr[i];
-		arr[i] = arr[arr.length - 1];
-		arr[arr.length - 1] = temp;
+		arr[i] = arr[r];
+		arr[r] = temp;
+		return i;
 	}
 
 }

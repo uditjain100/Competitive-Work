@@ -15,7 +15,7 @@ public class Lecture_07 {
 		System.out.println(MinCostMatrixMuliplicationDP(arr, 0, arr.length - 1, mp));
 		System.out.println(MinCostMatrixMuliplicationTable(arr));
 		System.out.println(MinCostMatrixMuliplicationTableResult(arr));
-		
+
 	}
 
 	public static void display(int[] arr) {
@@ -172,7 +172,6 @@ public class Lecture_07 {
 			}
 		}
 		return ob[0][freq.length - 1];
-
 	}
 
 	public static int burstBalloons(int[] arr, int si, int ei, int[][] bb) {

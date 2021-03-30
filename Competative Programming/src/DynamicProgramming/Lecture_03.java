@@ -4,12 +4,11 @@ public class Lecture_03 {
 
 	public static void main(String[] args) {
 
-		// System.out.println(longestCommonSusbsequence("qwerty", "wrty", 5, 3));
-		// int[][] lcs = new int[7][5];
-		// System.out.println(longestCommonSusbsequenceDP("pqprqrp", "qpqrr", 0, 0,
-		// lcs));
-		// display(lcs);
-		// System.out.println(longestCommonSusbsequenceTable("qwerty", "yrwe"));
+		System.out.println(longestCommonSusbsequence("qwerty", "wrty", 5, 3));
+		int[][] lcs = new int[7][5];
+		System.out.println(longestCommonSusbsequenceDP("pqprqrp", "qpqrr", 0, 0, lcs));
+		display(lcs);
+		System.out.println(longestCommonSusbsequenceTable("qwerty", "yrwe"));
 
 		// int[] a = { 1, 3, 7, 1, 7, 5 };
 		// int[] b = { 1, 9, 2, 5, 1 };
@@ -39,10 +38,13 @@ public class Lecture_03 {
 		// System.out.println(CoinChangeCombinationSubsequenceDP(new int[] { 2, 3, 5, 7
 		// }, 10, 0, 0, ccc));
 		// display(ccc);
-		// System.out.println(CoinChangeCombinationSubsequenceTable(new int[] { 2, 3, 5, 7 }, 10));
+		// System.out.println(CoinChangeCombinationSubsequenceTable(new int[] { 2, 3, 5,
+		// 7 }, 10));
 
-		// System.out.println(CoinChangeCombinationBinomial(new int[] { 2, 3, 5, 7 }, 10, 0));
-		// System.out.println(CoinChangeCombinationBinomialTable(new int[] { 2, 3, 5, 7 }, 10));
+		// System.out.println(CoinChangeCombinationBinomial(new int[] { 2, 3, 5, 7 },
+		// 10, 0));
+		// System.out.println(CoinChangeCombinationBinomialTable(new int[] { 2, 3, 5, 7
+		// }, 10));
 
 		// CoinChange(new int[] { 2, 3, 5, 7 }, 10, 0, 0);
 		// System.out.println(ccmin);
