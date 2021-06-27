@@ -104,9 +104,9 @@ public class Lecture_01 {
 		System.out.print("Vertical Order (Weight) -> ");
 		VerticalOrder(root);
 
-//		System.out.println();
-//		System.out.print("DLL -> ");
-//		DLL_Display(root);
+		// System.out.println();
+		// System.out.print("DLL -> ");
+		// DLL_Display(root);
 
 		System.out.println();
 		System.out.print("PreOrder : ");
@@ -180,8 +180,8 @@ public class Lecture_01 {
 
 	public static int height(Node node) {
 		if (node == null)
-//	here -1 indicates the height in terms of number of edges and if
-//	it is 0 then this will be height in terms of number of nodes.
+			// here -1 indicates the height in terms of number of edges and if
+			// it is 0 then this will be height in terms of number of nodes.
 			return -1;
 		return Math.max(height(node.left), height(node.right)) + 1;
 	}
@@ -241,7 +241,7 @@ public class Lecture_01 {
 
 	// Root to Node path algorithm
 	public static boolean RTNP(Node node, int data, ArrayList<Node> path) {
-		
+
 		if (node == null) {
 			return false;
 		}
@@ -372,7 +372,6 @@ public class Lecture_01 {
 
 		kDown(node.left, k - 1, blockNode, ans);
 		kDown(node.right, k - 1, blockNode, ans);
-
 	}
 
 	public static void kDown_02(Node node, int k, Node blockNode) {
@@ -985,7 +984,6 @@ public class Lecture_01 {
 
 	// Doubly Linked List
 	public static void DLL(Node node) {
-
 		if (node == null)
 			return;
 
@@ -1001,7 +999,6 @@ public class Lecture_01 {
 		DLLprev = node;
 
 		DLL(node.right);
-
 	}
 
 	public static void DLL_Display(Node node) {

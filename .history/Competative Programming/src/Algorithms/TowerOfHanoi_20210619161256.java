@@ -47,16 +47,14 @@ public class TowerOfHanoi {
             if (!stack.peek().atc) {
                 stack.peek().atc = true;
                 if (stack.peek().n != 1)
-                    stack.push(new pair(stack.peek().n - 1, stack.peek().a, stack.peek().c, stack.peek().b, false,
-                            false, false));
+                    stack.push(new pair(stack.peek().n - 1, a, c, b, false, false, false));
             } else if (!stack.peek().print) {
                 stack.peek().print = true;
                 System.out.println("Move plate from : " + stack.peek().a + " to " + stack.peek().b + ".");
             } else if (!stack.peek().ctb) {
                 stack.peek().ctb = true;
                 if (stack.peek().n != 1)
-                    stack.push(new pair(stack.peek().n - 1, stack.peek().c, stack.peek().b, stack.peek().a, false,
-                            false, false));
+                    stack.push(new pair(stack.peek().n - 1, c, b, a, false, false, false));
             } else
                 stack.pop();
         }

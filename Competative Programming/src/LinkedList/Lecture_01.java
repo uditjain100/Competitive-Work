@@ -311,7 +311,7 @@ public class Lecture_01 {
 
 			return this.head;
 		}
-		
+
 		public boolean isPalindrome() {
 
 			if (this.head == null || this.head.next == null)
@@ -502,6 +502,53 @@ public class Lecture_01 {
 			midNode.next = null;
 
 			return merge2SortedList(sortList(head), sortList(newHead));
+		}
+
+		public static Node quickSort(Node node) {
+			Node tail = node;
+			while (tail.next != null)
+				tail = tail.next;
+
+			quick(node, tail);
+			return node;
+		}
+
+		public static void quick(Node node, Node tail) {
+			if (node == null || node == tail || node == tail.next)
+				return;
+
+			Node pivot = partition(node, tail);
+			quick(node, pivot);
+			if (pivot != null && pivot == node)
+				quick(pivot.next, tail);
+			else if (pivot != null && pivot.next != null)
+				quick(pivot.next.next, tail);
+		}
+
+		public static Node partition(Node node, Node tail) {
+			if (node == null || tail == null)
+				return node;
+
+			Node curr = node;
+			Node i = node;
+			int pivot = tail.data;
+			Node p = node;
+
+			while (curr != tail) {
+				if (curr.data < pivot) {
+					p = i;
+					int temp = curr.data;
+					curr.data = i.data;
+					i.data = temp;
+					i = i.next;
+				}
+				curr = curr.next;
+			}
+
+			int fac = tail.data;
+			tail.data = i.data;
+			i.data = fac;
+			return p;
 		}
 
 	}

@@ -14,7 +14,7 @@ public class PartitionAlgo {
 	public static int Partition(int[] arr, int l, int r) {
 		int pivot = arr[r];
 		int i = l;
-		for (int j = i; j <= arr.length - 2; j++) {
+		for (int j = i; j < r; j++) {
 			if (arr[j] < pivot) {
 				int temp = arr[j];
 				arr[j] = arr[i];

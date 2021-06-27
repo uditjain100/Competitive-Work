@@ -5,8 +5,7 @@ import java.util.Stack;
 public class TowerOfHanoi {
 
     public static void main(String[] args) {
-        // System.out.println("Steps Required : " + TOH(3, 'A', 'B', 'C'));
-        iterative_toh(3, 'A', 'B', 'C');
+        System.out.println("Steps Required : " + TOH(3, 'A', 'B', 'C'));
     }
 
     public static int TOH(int n, char a, char b, char c) {
@@ -39,27 +38,26 @@ public class TowerOfHanoi {
         }
     }
 
-    public static void iterative_toh(int n, char a, char b, char c) {
+    public static int iterative_toh(int n, char a, char b, char c) {
 
         Stack<pair> stack = new Stack<>();
         stack.push(new pair(n, a, b, c, false, false, false));
-        while (!stack.isEmpty()) {
+        while (stack.isEmpty()) {
             if (!stack.peek().atc) {
                 stack.peek().atc = true;
                 if (stack.peek().n != 1)
-                    stack.push(new pair(stack.peek().n - 1, stack.peek().a, stack.peek().c, stack.peek().b, false,
-                            false, false));
+                    stack.push(new pair(stack.peek().n - 1, a, c, b, false, false, false));
             } else if (!stack.peek().print) {
-                stack.peek().print = true;
-                System.out.println("Move plate from : " + stack.peek().a + " to " + stack.peek().b + ".");
+                System.out.println("Move plate from : " + stack.peek().a + " to " + stack.peek().b);
             } else if (!stack.peek().ctb) {
                 stack.peek().ctb = true;
                 if (stack.peek().n != 1)
-                    stack.push(new pair(stack.peek().n - 1, stack.peek().c, stack.peek().b, stack.peek().a, false,
-                            false, false));
-            } else
-                stack.pop();
+                    stack.push(new pair(stack.peek().n - 1, c, b, a, false, false, false));
+            } else {
+
+            }
         }
+
     }
 
 }

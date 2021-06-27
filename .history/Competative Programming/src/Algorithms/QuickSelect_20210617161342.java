@@ -6,6 +6,8 @@ public class QuickSelect {
 
     public static void main(String[] args) {
 
+        System.out.println((int) Math.log(2 + 1) / 2);
+
         // int[] arr = { 8, 2, 6, 4 };
         // int k = 3;
         // System.out.println(QuickSelectpos(arr, 0, arr.length - 1, k));

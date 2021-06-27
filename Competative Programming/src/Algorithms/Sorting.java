@@ -2,11 +2,12 @@ package Algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class Sorting {
 
 	public static void main(String[] args) {
-		
+
 		int[] arr = { 9, 2, 5, 4, 7, 6, 8, 3 };
 		ShellSort(arr);
 		for (int c : arr)
@@ -15,6 +16,32 @@ public class Sorting {
 		int[] res = mergeSort(arr);
 		for (int c : res)
 			System.out.print(c + ", ");
+	}
+
+	public static int radixSort(int[] arr) {
+		int max = Integer.MIN_VALUE;
+		for (int ele : arr)
+			max = Math.max(max, ele);
+
+		int nod = (int) Math.floor(Math.log10(max) + 1);
+
+		PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> {
+			for (int i = 1; i <= nod; i++) {
+				int n1 = a % (int) Math.pow(10, i);
+				int n2 = b % (int) Math.pow(10, i);
+				n1 /= (int) Math.pow(10, i - 1);
+				n2 /= (int) Math.pow(10, i - 1);
+				if (n1 != n2)
+					return n1 - n2;
+			}
+			return b - a;
+		});
+
+		for (int ele : arr)
+			pq.add(ele);
+
+		while (!pq.isEmpty())
+			System.out.println(pq.remove());
 	}
 
 	// Space O(1)

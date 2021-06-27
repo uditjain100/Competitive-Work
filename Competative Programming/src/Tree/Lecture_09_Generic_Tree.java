@@ -29,20 +29,21 @@ public class Lecture_09_Generic_Tree {
 		root = constuctTree(preOrder, 0);
 		System.out.println("Tree Structure : ");
 		display(root);
-		System.out.print("Preorder : ");
-		PreOrder(root);
-		System.out.println();
-		System.out.print("Levelorder : ");
-		levelOrder(root);
-		System.out.println();
-		System.out.println("Size : " + size(root));
-		System.out.println("Height : " + height(root));
-		System.out.println("Find : " + find(root, 100));
-		ArrayList<Integer> path = new ArrayList<Integer>();
-		System.out.println("RTNP : " + RTNP(root, 100, path) + " : " + path);
-		System.out.println("IsMirror : " + isMirror(root, root));
-//		linearize(root);
-//		display(root);
+		// System.out.print("Preorder : ");
+		// PreOrder(root);
+		// System.out.println();
+		// System.out.print("Levelorder : ");
+		// levelOrder(root);
+		// System.out.println();
+		// System.out.println("Size : " + size(root));
+		// System.out.println("Height : " + height(root));
+		// System.out.println("Find : " + find(root, 100));
+		// ArrayList<Integer> path = new ArrayList<Integer>();
+		// System.out.println("RTNP : " + RTNP(root, 100, path) + " : " + path);
+		// System.out.println("IsMirror : " + isMirror(root, root));
+		System.out.println("***********************");
+		// linearize(root);
+		// display(root);
 		flattern(root);
 		display(root);
 	}
@@ -147,7 +148,7 @@ public class Lecture_09_Generic_Tree {
 			return false;
 		boolean res = false;
 		for (int i = 0, j = node2.childs.size() - 1; i < j; i++, j--)
-			res = res || isMirror(node1.childs.get(i), node2.childs.get(j));
+			res = res && isMirror(node1.childs.get(i), node2.childs.get(j));
 		return res;
 	}
 

@@ -6,9 +6,11 @@ public class QuickSelect {
 
     public static void main(String[] args) {
 
-        // int[] arr = { 8, 2, 6, 4 };
-        // int k = 3;
-        // System.out.println(QuickSelectpos(arr, 0, arr.length - 1, k));
+        System.out.println(Math.log10(25 + 1));
+
+        int[] arr = { 8, 2, 6, 4 };
+        int k = 3;
+        System.out.println(QuickSelectpos(arr, 0, arr.length - 1, k));
     }
 
     public static int QuickSelectpos(int[] arr, int l, int r, int k) {
